@@ -1,14 +1,21 @@
 import OrbitControls from "../third_party/OrbitControls";
-import Camera  from '../components/camera';
+import Camera from '../components/camera';
 
 
 const element = document.querySelector('[ikrioma-canvas]');
 
-const controls = new OrbitControls(Camera, {
-  element: element,
-  parent: element,
-  distance: 10 });
+class Controls {
+  constructor(distance) {
+    this._controls = new OrbitControls(Camera, {
+      element: element,
+      parent: element,
+      distance: distance
+    });
+  }
 
-controls.render = controls.update;
+  render() {
+    this._controls.update();
+  }
+}
 
-export default controls;
+export default Controls;

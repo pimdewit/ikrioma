@@ -15,6 +15,8 @@ export default class TetraHedron extends Object3D {
   constructor(size, detail, materialOptions) {
     super();
 
+    this._quality = CONSTANTS.QUALITY_STANDARD;
+
     this.geometry = GeoLow;
     this.material = MaterialStandard;
 
@@ -24,6 +26,9 @@ export default class TetraHedron extends Object3D {
   }
 
   set quality(quality) {
+    if (quality === this._quality) return;
+
+    this._quality = quality;
     this.removeMesh();
 
     switch(quality) {
@@ -41,6 +46,10 @@ export default class TetraHedron extends Object3D {
     this._mesh = new Mesh(this.geometry, this.material);
 
     this.add(this._mesh);
+  }
+
+  get quality() {
+    return this._quality;
   }
 
   removeMesh() {

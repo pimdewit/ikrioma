@@ -25,7 +25,7 @@ const CONSTANTS = {
  */
 const DEFAULTS = {
   ANTI_ALIAS: true,
-  POWER_PREFERENCE: CONSTANTS.POWER_HIGH,
+  POWER_PREFERENCE: CONSTANTS.POWER_LOW,
   CLEAR_COLOR: 0xf2f3f4,
   CLEAR_ALPHA: CONSTANTS.ALPHA_TRANSPARENT
 };
@@ -55,6 +55,13 @@ export class Renderer {
       width: GLOBAL_RESIZE.width,
       height: GLOBAL_RESIZE.height
     };
+
+    /**
+     * Array of classes to loop through
+     * @type {Array}
+     * @private
+     */
+    this._targets = [];
   }
 
   /**
@@ -78,19 +85,45 @@ export class Renderer {
   get canvas() {
     return this._renderer.domElement;
   }
+
+  /**
+   * Get all render targets.
+   * @returns {Array<Object>}
+   */
+  get targets() {
+    return this._targets;
+  }
+
+  /**
+   * @param {Object} target
+   */
+  add(target) {
+    this._targets.push(target);
+  }
+
+  /**
+   * Remove an item from the targets array.
+   * @param {Object} target
+   */
+  remove(target) {
+    this._targets.splice(target, 1);
+  }
 }
 
 /**
  * Render the "render()" methods of an array of classes.
  */
 export function animateComponents() {
-  RENDER_TARGETS.forEach(target => {
+  let i = RENDER_TARGETS.length - 1;
+
+  for (i; i >= 0; i--) {
+    const target = RENDER_TARGETS[i];
     if (typeof target.render === 'function') {
       target.render();
     } else {
       console.warn(`%c${target.constructor.name}`, 'font-weight: bold', `does not have a render() method.`);
       console.warn(`Removing target from render targets array.`);
-      RENDER_TARGETS.splice(target, 1);
+      target.splice(target, 1);
     }
-  });
+  }
 }

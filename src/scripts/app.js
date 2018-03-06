@@ -10,7 +10,7 @@ import TetraHedron from './models/tetrahedron/tetrahedron';
 
 import camera from './components/camera';
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
-import controls from './components/controls';
+import Controls from './components/controls';
 
 /**
  * Ikrioma.
@@ -22,11 +22,16 @@ class Ikrioma {
     this.camera = camera;
     this.scene = new Scene();
 
+    this.controls = new Controls(100);
+    RENDER_TARGETS.push(this.controls);
+
     this.camera.position.setY(0);
-    this.camera.position.setZ(-30);
+    this.camera.position.setZ(-100);
+
     this.camera.lookAt(0, 0, 0);
 
     this._renderer = new Renderer(canvas);
+
 
     this.__resize = this._resize.bind(this);
     this.__onPointerMove = this._onPointerMove.bind(this);
@@ -38,7 +43,7 @@ class Ikrioma {
 
     const randomPosMax = 50;
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 100; i++) {
       const object = new TetraHedron(1, 1, {});
       object.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
 
@@ -92,13 +97,24 @@ class Ikrioma {
 
   _onPointerMove(event) {
     const coordinates = getPointerCoordinates(event);
-    console.log(coordinates);
   }
 
   _animate() {}
 
   render() {
     animateComponents();
+
+    const cameraPosition = this.camera;
+
+    RENDER_TARGETS.forEach(target => {
+      const objectPosition = target.position;
+
+      if (!objectPosition) return;
+
+      const distance = cameraPosition.position.distanceTo(objectPosition);
+
+      target.quality = distance > 10 ? 'low' : 'high';
+    });
 
     this._renderer.engine.render(this.scene, this.camera);
   }
