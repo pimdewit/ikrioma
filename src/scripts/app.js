@@ -76,9 +76,13 @@ class Ikrioma {
    * @private
    */
   _resize() {
-    console.groupCollapsed('Resized window');
-    console.log(`w: ${GLOBAL_RESIZE.width} h: ${GLOBAL_RESIZE.height}`);
-    console.groupEnd();
+    const width = GLOBAL_RESIZE.width;
+    const height = GLOBAL_RESIZE.height;
+
+    this.camera.aspect = width / height;
+    this.camera.updateProjectionMatrix();
+
+    this._renderer.engine.setSize(width, height);
 
     this.render();
   }

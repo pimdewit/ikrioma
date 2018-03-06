@@ -8,5 +8,14 @@ html, body {
 body {
   margin: 0;
 
-  background-color: #121314;
+  background-color: #242729;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  width: 100%;
+  height: 100%;
 }
