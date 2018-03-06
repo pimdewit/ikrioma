@@ -4,7 +4,7 @@ import loop from 'raf-loop';
 import { Scene } from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
-import { randomNumber } from './common/common';
+import { randomNumber, getPointerCoordinates } from './common/common';
 
 import TetraHedron from './models/tetrahedron/tetrahedron';
 
@@ -27,7 +27,9 @@ class Ikrioma {
     this.camera.lookAt(0, 0, 0);
 
     this._renderer = new Renderer(canvas);
+
     this.__resize = this._resize.bind(this);
+    this.__onPointerMove = this._onPointerMove.bind(this);
 
     this._looping = false;
     this._engine = loop(this.render.bind(this));
@@ -61,6 +63,7 @@ class Ikrioma {
    */
   _addEventListeners() {
     GLOBAL_RESIZE.addListener(this.__resize);
+    this._renderer.canvas.addEventListener('pointermove', this.__onPointerMove);
   }
 
   /**
@@ -85,6 +88,11 @@ class Ikrioma {
     this._renderer.engine.setSize(width, height);
 
     this.render();
+  }
+
+  _onPointerMove(event) {
+    const coordinates = getPointerCoordinates(event);
+    console.log(coordinates);
   }
 
   _animate() {}
