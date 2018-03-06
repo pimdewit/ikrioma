@@ -37,5 +37,5 @@ export function getPointerCoordinates(event) {
  * @returns {Number}
  */
 export function randomNumber(max) {
-  return (Math.random() * max) - (max * 0.5);
+  return Math.random() * max - (max >> 1);
 }
