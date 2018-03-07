@@ -48,6 +48,7 @@ export class Renderer {
       powerPreference: config.POWER_PREFERENCE,
       alpha: config.CLEAR_ALPHA === CONSTANTS.ALPHA_TRANSPARENT
     });
+    this._renderer.setPixelRatio(window.devicePixelRatio);
 
     this._renderer.setClearColor(config.CLEAR_COLOR, config.CLEAR_ALPHA);
 
