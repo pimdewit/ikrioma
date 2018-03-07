@@ -1,7 +1,7 @@
 import '../styles/main.scss';
 
 import loop from 'raf-loop';
-import { Scene } from 'three';
+import { Scene, DirectionalLight } from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 import { randomNumber, getPointerCoordinates } from './common/common';
@@ -49,15 +49,21 @@ class Ikrioma {
 
     const randomPosMax = 50;
 
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 1; i++) {
       const object = new TetraHedron(1, 1, {});
-      object.position.set(randomNumber(200), -1, 0);
+      // object.position.set(randomNumber(200), -1, randomNumber(10));
+      object.position.set(0, -1, 0);
 
       this.objects.push(object);
       RENDER_TARGETS.push(object);
 
       this.scene.add(object);
     }
+
+    this.light = new DirectionalLight(0xffffff, 1);
+    this.light.position.set(500, 100, 400);
+
+    this.scene.add(this.light);
 
     this._addEventListeners();
   }

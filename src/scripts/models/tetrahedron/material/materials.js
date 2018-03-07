@@ -1,7 +1,6 @@
-import { MeshBasicMaterial } from 'three';
+import { MeshPhongMaterial, DoubleSide } from 'three';
 
-export const material = new MeshBasicMaterial({
-  color: 0xf2f3f4,
-  roughness: 0,
-  flatShading: true
+export const material = new MeshPhongMaterial( {
+  color: 0xffffff,
+  side: DoubleSide
 });
