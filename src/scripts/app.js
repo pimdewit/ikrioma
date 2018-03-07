@@ -49,9 +49,9 @@ class Ikrioma {
 
     const randomPosMax = 50;
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 50; i++) {
       const object = new TetraHedron(1, 1, {});
-      object.position.set(0, -1, 0);
+      object.position.set(randomNumber(200), -1, 0);
 
       this.objects.push(object);
       RENDER_TARGETS.push(object);
