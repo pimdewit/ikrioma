@@ -7,6 +7,7 @@ import GLOBAL_RESIZE from './common/resize';
 import { randomNumber, getPointerCoordinates } from './common/common';
 
 import TetraHedron from './models/tetrahedron/tetrahedron';
+import ParticleX from './models/particleX/particleX';
 
 import camera from './components/camera';
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
@@ -59,6 +60,19 @@ class Ikrioma {
 
       this.scene.add(object);
     }
+
+    this.particles = [];
+
+    for (let i = 0; i < 1; i++) {
+      const particle = new ParticleX();
+      particle.position.set(randomNumber(150), randomNumber(150), randomNumber(150));
+
+      this.particles.push(particle);
+
+      this.scene.add(particle);
+    }
+
+
 
     this.light = new DirectionalLight(0xffffff, 1);
     this.light.position.set(500, 100, 400);
@@ -123,6 +137,19 @@ class Ikrioma {
 
       if (!objectPosition) return;
 
+      const distance = cameraPosition.position.distanceTo(objectPosition);
+
+      if (distance <= LOD.CLOSE) {
+        target.quality = 'high';
+      } else if (distance > LOD.CLOSE && distance <= LOD.MEDIUM) {
+        target.quality = 'medium';
+      } else if (distance > LOD.MEDIUM) {
+        target.quality = 'low';
+      }
+    });
+
+    this.particles.forEach(target => {
+      const objectPosition = target.position;
       const distance = cameraPosition.position.distanceTo(objectPosition);
 
       if (distance <= LOD.CLOSE) {
