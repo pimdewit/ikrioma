@@ -12,6 +12,12 @@ import camera from './components/camera';
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
 import Controls from './components/controls';
 
+const LOD = {
+  CLOSE: 3,
+  MEDIUM: 10,
+  FAR: 20
+};
+
 /**
  * Ikrioma.
  * @author Pim de Wit <https://pdw.io>
@@ -25,7 +31,7 @@ class Ikrioma {
     this.controls = new Controls(100);
     RENDER_TARGETS.push(this.controls);
 
-    this.camera.position.setY(0);
+    this.camera.position.setY(10);
     this.camera.position.setZ(-100);
 
     this.camera.lookAt(0, 0, 0);
@@ -43,9 +49,9 @@ class Ikrioma {
 
     const randomPosMax = 50;
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 1; i++) {
       const object = new TetraHedron(1, 1, {});
-      object.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
+      object.position.set(0, -1, 0);
 
       this.objects.push(object);
       RENDER_TARGETS.push(object);
@@ -113,7 +119,13 @@ class Ikrioma {
 
       const distance = cameraPosition.position.distanceTo(objectPosition);
 
-      target.quality = distance > 10 ? 'low' : 'high';
+      if (distance <= LOD.CLOSE) {
+        target.quality = 'high';
+      } else if (distance > LOD.CLOSE && distance <= LOD.MEDIUM) {
+        target.quality = 'medium';
+      } else if (distance > LOD.MEDIUM) {
+        target.quality = 'low';
+      }
     });
 
     this._renderer.engine.render(this.scene, this.camera);
