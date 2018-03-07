@@ -27,8 +27,10 @@ export default class TetraHedron extends Object3D {
 
   set quality(quality) {
     if (quality === this._quality) return;
-
     this._quality = quality;
+
+    const rotation = this._mesh.rotation;
+
     this.removeMesh();
 
     switch(quality) {
@@ -41,9 +43,13 @@ export default class TetraHedron extends Object3D {
       case CONSTANTS.QUALITY_LOW:
         this.geometry = GeoLow;
         break;
+      default:
+        console.warn('no quality specified');
+        return;
     }
 
     this._mesh = new Mesh(this.geometry, this.material);
+    this._mesh.rotation.set(rotation.x, rotation.y, rotation.z);
 
     this.add(this._mesh);
   }
@@ -61,6 +67,6 @@ export default class TetraHedron extends Object3D {
   }
 
   render() {
-    if (this._mesh) this._mesh.rotation.x += 0.01;
+    if (this._mesh) this._mesh.rotation.y += 0.01;
   }
 }
