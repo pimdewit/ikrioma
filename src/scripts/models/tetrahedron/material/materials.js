@@ -1,9 +1,7 @@
-import { MeshStandardMaterial } from 'three';
+import { MeshBasicMaterial } from 'three';
 
-const material = new MeshStandardMaterial({
-  color: 0xff0000,
-  roughness: 0.5,
+export const material = new MeshBasicMaterial({
+  color: 0xf2f3f4,
+  roughness: 0,
   flatShading: true
 });
-
-export default material;
