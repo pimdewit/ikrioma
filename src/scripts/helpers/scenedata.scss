@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
+[ikrioma-scene-data] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  padding: 2em;
+
+  color: white;
+
+  line-height: 1.5;
+
+  user-select: none;
+  pointer-events: none;
+
+  transition: {
+    property: opacity;
+    timing-function: ease-in-out;
+    duration: 400ms;
+  }
+
+  &:not(.active) {
+    opacity: 0;
+  }
+}
+
+[ikrioma-scene-data] .fragment {
+  display: block;
+}

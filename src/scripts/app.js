@@ -12,6 +12,7 @@ import ParticleX from './models/particleX/particleX';
 import camera from './components/camera';
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
 import Controls from './components/controls';
+import SceneDataHelper from "./helpers/scenedata";
 
 const LOD = {
   CLOSE: 3,
@@ -80,6 +81,10 @@ class Ikrioma {
     this.scene.add(this.light);
 
     this._addEventListeners();
+
+
+    this.sceneHelper = new SceneDataHelper(this._renderer);
+    RENDER_TARGETS.push(this.sceneHelper);
   }
 
   set looping(loop) {
