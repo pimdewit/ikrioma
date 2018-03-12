@@ -6,7 +6,8 @@ import {BufferGeometry, Float32BufferAttribute} from 'three';
  * @returns {Object}
  */
 export function getBlenderGeometryData(data) {
-  return data.geometries[0].data;
+  if (data.geometries) return data.geometries[0].data;
+  if (data.data) return data.data;
 }
 
 /**
