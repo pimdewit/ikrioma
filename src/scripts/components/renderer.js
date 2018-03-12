@@ -75,14 +75,12 @@ export class Renderer {
     this._renderer.setSize(size.width, size.height);
   }
 
+  /** @returns {WebGLRenderer} */
   get engine() {
     return this._renderer;
   }
 
-  /**
-   * Get the renderer canvas
-   * @returns {HTMLCanvasElement}
-   */
+  /** @returns {HTMLCanvasElement} */
   get canvas() {
     return this._renderer.domElement;
   }
@@ -93,6 +91,10 @@ export class Renderer {
    */
   get targets() {
     return this._targets;
+  }
+
+  set shadowMap(shadowMap) {
+    this._renderer.shadowMap.enabled = shadowMap;
   }
 
   /**

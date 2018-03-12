@@ -11,7 +11,7 @@ html, body {
 body {
   margin: 0;
 
-  background-color: #1a1a1a;
+  background-color: #121212;
 }
 
 .canvas {
@@ -21,4 +21,9 @@ body {
 
   width: 100%;
   height: 100%;
+
+  user-select: none;
+
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }

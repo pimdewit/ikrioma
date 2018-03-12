@@ -14,13 +14,13 @@ import Controls from './components/controls';
 import SceneDataHelper from "./helpers/scenedata";
 
 const LOD = {
-  CLOSE: 3,
-  MEDIUM: 10,
+  CLOSE: 10,
+  MEDIUM: 20,
   FAR: 20
 };
 
 const MODELS = {
-  ROBOTS: 26,
+  ROBOTS: 1,
 };
 
 /**
@@ -39,8 +39,6 @@ class Ikrioma {
     this.camera.position.setY(10);
     this.camera.position.setZ(-100);
 
-    this.camera.lookAt(0, 0, 0);
-
     this._renderer = new Renderer(canvas);
 
     this.__resize = this._resize.bind(this);
@@ -50,8 +48,6 @@ class Ikrioma {
     this._engine = loop(this.render.bind(this));
 
     this.objects = [];
-
-    const randomPosMax = 50;
 
     for (let i = 0; i < MODELS.ROBOTS; i++) {
       const object = new TetraHedron(1, 1, {});
@@ -123,14 +119,13 @@ class Ikrioma {
   render() {
     animateComponents();
 
-    const cameraPosition = this.camera;
 
     RENDER_TARGETS.forEach(target => {
       const objectPosition = target.position;
 
       if (!objectPosition) return;
 
-      const distance = cameraPosition.position.distanceTo(objectPosition);
+      const distance = this.camera.position.distanceTo(objectPosition);
 
       if (distance <= LOD.CLOSE) {
         target.quality = 'high';

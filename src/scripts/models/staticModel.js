@@ -7,7 +7,7 @@ const CONSTANTS = {
 };
 
 export default class LODMesh extends Object3D {
-  constructor(geometries, materials) {
+  constructor(camera, geometries) {
     super();
 
     this._quality = CONSTANTS.QUALITY_LOW;
