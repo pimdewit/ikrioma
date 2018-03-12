@@ -7,7 +7,6 @@ import GLOBAL_RESIZE from './common/resize';
 import { randomNumber, getPointerCoordinates } from './common/common';
 
 import TetraHedron from './models/tetrahedron/tetrahedron';
-import ParticleX from './models/particleX/particleX';
 
 import camera from './components/camera';
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
@@ -18,6 +17,10 @@ const LOD = {
   CLOSE: 3,
   MEDIUM: 10,
   FAR: 20
+};
+
+const MODELS = {
+  ROBOTS: 26,
 };
 
 /**
@@ -40,7 +43,6 @@ class Ikrioma {
 
     this._renderer = new Renderer(canvas);
 
-
     this.__resize = this._resize.bind(this);
     this.__onPointerMove = this._onPointerMove.bind(this);
 
@@ -51,7 +53,7 @@ class Ikrioma {
 
     const randomPosMax = 50;
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < MODELS.ROBOTS; i++) {
       const object = new TetraHedron(1, 1, {});
       // object.position.set(randomNumber(200), -1, randomNumber(10));
       object.position.set(0, -1, 0);
@@ -62,26 +64,12 @@ class Ikrioma {
       this.scene.add(object);
     }
 
-    this.particles = [];
-
-    for (let i = 0; i < 1; i++) {
-      const particle = new ParticleX();
-      particle.position.set(randomNumber(150), randomNumber(150), randomNumber(150));
-
-      this.particles.push(particle);
-
-      this.scene.add(particle);
-    }
-
-
-
     this.light = new DirectionalLight(0xffffff, 1);
-    this.light.position.set(500, 100, 400);
+    this.light.position.set(0, 0, -100);
 
     this.scene.add(this.light);
 
     this._addEventListeners();
-
 
     this.sceneHelper = new SceneDataHelper(this._renderer);
     RENDER_TARGETS.push(this.sceneHelper);
@@ -142,19 +130,6 @@ class Ikrioma {
 
       if (!objectPosition) return;
 
-      const distance = cameraPosition.position.distanceTo(objectPosition);
-
-      if (distance <= LOD.CLOSE) {
-        target.quality = 'high';
-      } else if (distance > LOD.CLOSE && distance <= LOD.MEDIUM) {
-        target.quality = 'medium';
-      } else if (distance > LOD.MEDIUM) {
-        target.quality = 'low';
-      }
-    });
-
-    this.particles.forEach(target => {
-      const objectPosition = target.position;
       const distance = cameraPosition.position.distanceTo(objectPosition);
 
       if (distance <= LOD.CLOSE) {
