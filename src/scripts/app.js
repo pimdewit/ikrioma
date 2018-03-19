@@ -1,7 +1,8 @@
 import '../styles/main.scss';
 
 import loop from 'raf-loop';
-import { Scene, DirectionalLight } from 'three';
+
+import { Scene, PerspectiveCamera, DirectionalLight } from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 import { randomNumber, getPointerCoordinates } from './common/common';
@@ -18,10 +19,37 @@ const LOD = {
   MEDIUM: 20,
   FAR: 20
 };
+import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/cameraManager';
+import OrbitControls from './third_party/OrbitControls';
 
 const MODELS = {
   ROBOTS: 1,
 };
+
+const CAMERA_DATA = [
+  {
+    id: 'front',
+    options: {
+      fov: 50,
+      aspect: GLOBAL_RESIZE.width / GLOBAL_RESIZE.height,
+      near: 0.1,
+      far: 800
+    },
+    controls: true,
+    distance: 100
+  },
+  {
+    id: 'back',
+    options: {
+      fov: 50,
+      aspect: GLOBAL_RESIZE.width / GLOBAL_RESIZE.height,
+      near: 0.1,
+      far: 800
+    },
+    controls: true,
+    distance: 200
+  }
+];
 
 /**
  * Ikrioma.
@@ -30,11 +58,35 @@ const MODELS = {
 class Ikrioma {
 
   constructor(canvas) {
-    this.camera = camera;
     this.scene = new Scene();
 
-    this.controls = new Controls(100);
-    RENDER_TARGETS.push(this.controls);
+    this.cameraManager = new CameraManager();
+
+    CAMERA_DATA.forEach(data => {
+      const {id, controls, distance} = data;
+      const {fov, aspect, near, far} = data.options || CAMERA_CONSTANTS;
+
+      const camera = new PerspectiveCamera(fov, aspect, near, far);
+
+      if (controls) {
+        const orbitControls = new OrbitControls(camera, {
+          element: canvas,
+          parent: canvas,
+          distance: distance
+        });
+        camera._Ikrioma = {
+          controls: orbitControls
+        };
+      } else {
+        camera.position.setZ(distance);
+      }
+
+      this.cameraManager.add(id, camera);
+      this.scene.add(camera);
+
+    });
+
+    this.cameraManager.activeCamera = 'front';
 
     this.camera.position.setY(10);
     this.camera.position.setZ(-100);
@@ -102,8 +154,8 @@ class Ikrioma {
     const width = GLOBAL_RESIZE.width;
     const height = GLOBAL_RESIZE.height;
 
-    this.camera.aspect = width / height;
-    this.camera.updateProjectionMatrix();
+    this.cameraManager.activeCamera.aspect = width / height;
+    this.cameraManager.activeCamera.updateProjectionMatrix();
 
     this._renderer.engine.setSize(width, height);
 
@@ -119,27 +171,12 @@ class Ikrioma {
   render() {
     animateComponents();
 
-
-    RENDER_TARGETS.forEach(target => {
-      const objectPosition = target.position;
-
-      if (!objectPosition) return;
-
-      const distance = this.camera.position.distanceTo(objectPosition);
-
-      if (distance <= LOD.CLOSE) {
-        target.quality = 'high';
-      } else if (distance > LOD.CLOSE && distance <= LOD.MEDIUM) {
-        target.quality = 'medium';
-      } else if (distance > LOD.MEDIUM) {
-        target.quality = 'low';
-      }
-    });
-
-    this._renderer.engine.render(this.scene, this.camera);
+    if (this.cameraManager.activeCamera._Ikrioma) this.cameraManager.activeCamera._Ikrioma.controls.update();
+    this._renderer.engine.render(this.scene, this.cameraManager.activeCamera);
   }
 }
 
-const Experiment = new Ikrioma(document.querySelector('[ikrioma-canvas]'));
+const canvas = document.querySelector('[ikrioma-canvas]');
+const Experiment = new Ikrioma(canvas);
 
 Experiment.looping = true;
