@@ -2,7 +2,7 @@ import '../styles/main.scss';
 
 import loop from 'raf-loop';
 
-import { Scene, PerspectiveCamera, DirectionalLight, IcosahedronGeometry, MeshLambertMaterial, LOD, Mesh } from 'three';
+import { Scene, PerspectiveCamera, DirectionalLight, IcosahedronGeometry, LOD } from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 
@@ -42,8 +42,6 @@ const CAMERA_DATA = [
     distance: 200
   }
 ];
-
-const material = new MeshLambertMaterial( { color: 0xffffff, wireframe: true } );
 
 /**
  * Ikrioma.
@@ -164,22 +162,48 @@ class Ikrioma {
     this.render();
   }
 
-  render() {
-    animateComponents();
-
-    const activeCamera = this.cameraManager.activeCamera;
-
-    // If the camera contains controls, update it.
-    if (activeCamera._Ikrioma) activeCamera._Ikrioma.controls.update();
-
+  /**
+   * Drawing loop which specifically handles models/meshes in particular.
+   * @private
+   */
+  _drawModels() {
     // If the scene contains LOD objects, update it.
     this._scene.traverse(object => {
       if (object instanceof LOD) {
-        object.update(activeCamera);
+        object.update(this.cameraManager.activeCamera);
       }
     });
+  }
 
-    this._renderer.engine.render(this._scene, activeCamera);
+  /**
+   * Draw the logic for small components that are not as important as the main models.
+   * @private
+   */
+  _drawMicroComponents() {
+    let i = RENDER_TARGETS.length - 1;
+
+    for (i; i >= 0; i--) {
+      const target = RENDER_TARGETS[i];
+      if (typeof target.render === 'function') {
+        target.render();
+      } else {
+        console.warn(`%c${target.constructor.name}`, 'font-weight: bold', `does not have a render() method.`);
+        console.warn(`Removing target from render targets array.`);
+        target.splice(target, 1);
+      }
+    }
+  }
+
+  render() {
+    const camera = this.cameraManager.activeCamera;
+
+    this._drawModels();
+    this._drawMicroComponents();
+
+    // If the camera contains controls, update it.
+    if (camera._Ikrioma) camera._Ikrioma.controls.update();
+
+    this._renderer.engine.render(this._scene, camera);
   }
 }
 

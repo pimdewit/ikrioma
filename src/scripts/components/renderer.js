@@ -112,21 +112,3 @@ export class Renderer {
     this._targets.splice(target, 1);
   }
 }
-
-/**
- * Render the "render()" methods of an array of classes.
- */
-export function animateComponents() {
-  let i = RENDER_TARGETS.length - 1;
-
-  for (i; i >= 0; i--) {
-    const target = RENDER_TARGETS[i];
-    if (typeof target.render === 'function') {
-      target.render();
-    } else {
-      console.warn(`%c${target.constructor.name}`, 'font-weight: bold', `does not have a render() method.`);
-      console.warn(`Removing target from render targets array.`);
-      target.splice(target, 1);
-    }
-  }
-}
