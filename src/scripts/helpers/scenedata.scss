@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
-
-[ikrioma-scene-data] {
+[ikrioma-helpers] {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -20,11 +19,16 @@
     duration: 400ms;
   }
 
-  &:not(.active) {
-    opacity: 0;
-  }
+  //&:not(.active) {
+  //  opacity: 0;
+  //}
 }
 
-[ikrioma-scene-data] .fragment {
+[ikrioma-helpers] .fragment {
   display: block;
+}
+
+
+[ikrioma-scene-data]:not(:last-of-type) {
+  margin-bottom: 1em;
 }

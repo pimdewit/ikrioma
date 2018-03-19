@@ -9,7 +9,7 @@ const CONSTANTS = {
 class SceneDataHelper {
   constructor(renderer) {
     this._renderer = renderer;
-    this._container = document.createElement('aside');
+    this._container = document.createElement('div');
     this._container.setAttribute(CONSTANTS.ATTRIBUTE_CONTAINER, '');
 
     this.active = true;
@@ -31,7 +31,7 @@ class SceneDataHelper {
     });
 
     /** TODO: find better way to distribute root element globally */
-    document.querySelector('[ikrioma-root]').appendChild(this._container);
+    document.querySelector('[ikrioma-helpers]').appendChild(this._container);
   }
 
   get active() {
