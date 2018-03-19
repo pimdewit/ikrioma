@@ -39,3 +39,12 @@ export function getPointerCoordinates(event) {
 export function randomNumber(max) {
   return Math.random() * max - (max >> 1);
 }
+
+/**
+ * Force 2 decimals on a number.
+ * @param {Number} n
+ * @returns {String}
+ */
+export function trimDecimals(n) {
+  return (Math.round(n * 100) / 100).toFixed(2);
+}
