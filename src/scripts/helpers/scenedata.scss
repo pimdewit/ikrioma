@@ -10,8 +10,6 @@
 
   line-height: 2;
 
-  background-color: rgba(0, 0, 0, .72);
-
   user-select: none;
   pointer-events: none;
 
@@ -31,10 +29,10 @@
 }
 
 
-[ikrioma-scene-data]:not(:last-of-type) {
+[ikrioma-helper-data]:not(:last-of-type) {
   margin-bottom: 1em;
 }
 
-[ikrioma-scene-data]:first-child {
+[ikrioma-helper-data]:first-child {
   opacity: .7;
 }

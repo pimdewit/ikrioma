@@ -1,51 +1,13 @@
 import './scenedata.scss';
 
-const CONSTANTS = {
-  CLASS_ACTIVE: 'active',
-  CLASS_LISTITEM: 'fragment',
-  ATTRIBUTE_CONTAINER: 'ikrioma-scene-data'
-};
+import DataHelper from './dataHelper';
 
-class SceneDataHelper {
+class SceneDataHelper extends DataHelper {
   constructor(renderer) {
+    super();
     this._renderer = renderer;
-    this._container = document.createElement('div');
-    this._container.setAttribute(CONSTANTS.ATTRIBUTE_CONTAINER, '');
 
-    this.active = true;
-
-    /* This element nor its contents should not be read by the browser */
-    this._container.setAttribute('aria-hidden', true);
-
-
-    this.textElements = [];
-
-    Object.keys(this.sceneData).forEach(key => {
-      const element = document.createElement('code');
-      element.classList.add(CONSTANTS.CLASS_LISTITEM, key);
-      const textNode = document.createTextNode(key);
-      this.textElements.push(element);
-
-      element.appendChild(textNode);
-      this._container.appendChild(element);
-    });
-
-    /** TODO: find better way to distribute root element globally */
-    document.querySelector('[ikrioma-helpers]').appendChild(this._container);
-  }
-
-  get active() {
-    return this._active;
-  }
-
-  set active(active) {
-    this._active = active;
-
-    if (active) {
-      this._container.classList.add(CONSTANTS.CLASS_ACTIVE);
-    } else {
-      this._container.classList.remove(CONSTANTS.CLASS_ACTIVE);
-    }
+    this._createDOM(this.sceneData);
   }
 
   get sceneData() {
