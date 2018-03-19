@@ -1,72 +1,23 @@
-import { Object3D, Mesh } from 'three';
+import { LOD, Mesh } from 'three';
 
-import { geometry as GeoLow } from './geometry/geometry-lq.js';
-import { geometry as GeoStandard } from './geometry/geometry-standard.js';
-import { geometry as GeoHigh } from './geometry/geometry-hq.js';
-import { material as MaterialStandard } from './material/materials.js';
+import { DEFAULTS } from '../constants';
 
-const CONSTANTS = {
-  QUALITY_HIGH: 'high',
-  QUALITY_STANDARD: 'medium',
-  QUALITY_LOW: 'low'
-};
-
-export default class TetraHedron extends Object3D {
-  constructor(size, detail, materialOptions) {
+export default class TetraHedron extends LOD {
+  constructor(geometries, material) {
     super();
 
-    this._quality = CONSTANTS.QUALITY_STANDARD;
+    this.material = material || DEFAULTS.MATERIAL;
 
-    this.geometry = GeoLow;
-    this.material = MaterialStandard;
+    for (let i = 0; i < geometries.length; i++) {
+      const geometry = geometries[i][0];
+      const distance = geometries[i][1];
 
-    this._mesh = new Mesh(this.geometry, this.material);
+      const mesh = new Mesh(geometry, this.material);
 
-    this.add(this._mesh);
-  }
-
-  set quality(quality) {
-    if (quality === this._quality) return;
-    this._quality = quality;
-
-    const rotation = this._mesh.rotation;
-
-    this.removeMesh();
-
-    switch(quality) {
-      case CONSTANTS.QUALITY_HIGH:
-        this.geometry = GeoHigh;
-        break;
-      case CONSTANTS.QUALITY_STANDARD:
-        this.geometry = GeoStandard;
-        break;
-      case CONSTANTS.QUALITY_LOW:
-        this.geometry = GeoLow;
-        break;
-      default:
-        console.warn('no quality specified');
-        return;
+      this.addLevel(mesh, distance);
     }
-
-    this._mesh = new Mesh(this.geometry, this.material);
-    this._mesh.rotation.set(rotation.x, rotation.y, rotation.z);
-
-    this.add(this._mesh);
-  }
-
-  get quality() {
-    return this._quality;
-  }
-
-  removeMesh() {
-    this.remove(this._mesh);
-  }
-
-  addMesh() {
-    this.add(this._mesh);
   }
 
   render() {
-    if (this._mesh) this._mesh.rotation.y += 0.01;
   }
 }

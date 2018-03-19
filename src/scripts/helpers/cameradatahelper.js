@@ -10,8 +10,8 @@ const CONSTANTS = {
 
 class CameraDataHelper {
 
-  constructor(cameramanager) {
-    this._data = cameramanager;
+  constructor(cameraManager) {
+    this._data = cameraManager;
 
     console.log(this._data);
     this._container = document.createElement('div');
@@ -56,15 +56,18 @@ class CameraDataHelper {
   get managerData() {
     const activeCamera = this._data.activeCamera;
     const controls = activeCamera._Ikrioma ? activeCamera._Ikrioma.controls.constructor.name : 'N/A';
+
     const {x: pX, y: pY, z: pZ} = activeCamera.position;
     const {x: rX, y: rY, z: rZ} = activeCamera.rotation;
-    // const {rotX, rotY, rotZ} = activeCamera.rotation;
-    const object = {};
-    object.cameraList = Object.keys(this._data.cameras).toString();
-    object.activeCamera = this._data.activeCameraName;
-    object.activePosition = `${trimDecimals(pX)}, ${trimDecimals(pY)}, ${trimDecimals(pZ)}`;
-    object.activeRotation =  `${trimDecimals(rX)}, ${trimDecimals(rY)}, ${trimDecimals(rZ)}`;
-    object.controlType = controls;
+
+    const object = {
+      cameraList: Object.keys(this._data.cameras).toString(),
+      activeCamera: this._data.activeCameraName,
+      activePosition: `${trimDecimals(pX)}, ${trimDecimals(pY)}, ${trimDecimals(pZ)}`,
+      activeRotation:  `${trimDecimals(rX)}, ${trimDecimals(rY)}, ${trimDecimals(rZ)}`,
+      controlType: controls
+    };
+
     return object;
   }
 
