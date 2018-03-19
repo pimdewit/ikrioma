@@ -20,6 +20,8 @@ const LOD = {
   FAR: 20
 };
 import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/cameraManager';
+import SceneDataHelper from './helpers/scenedata';
+import CameraDataHelper from './helpers/cameradatahelper';
 import OrbitControls from './third_party/OrbitControls';
 
 const MODELS = {
@@ -88,8 +90,9 @@ class Ikrioma {
 
     this.cameraManager.activeCamera = 'front';
 
-    this.camera.position.setY(10);
-    this.camera.position.setZ(-100);
+    setTimeout(() => {
+      this.cameraManager.activeCamera = 'back';
+    }, 5000);
 
     this._renderer = new Renderer(canvas);
 
@@ -119,6 +122,8 @@ class Ikrioma {
 
     this._addEventListeners();
 
+    this.cameraHelper = new CameraDataHelper(this.cameraManager);
+    RENDER_TARGETS.push(this.cameraHelper);
     this.sceneHelper = new SceneDataHelper(this._renderer);
     RENDER_TARGETS.push(this.sceneHelper);
   }
