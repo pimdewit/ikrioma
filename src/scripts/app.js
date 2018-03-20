@@ -41,7 +41,7 @@ const CAMERA_DATA = [
       far: 800
     },
     controls: false,
-    distance: 200
+    distance: 20
   }
 ];
 
@@ -156,6 +156,11 @@ class Ikrioma {
     this.cameraManager.activeCamera.aspect = width / height;
     this.cameraManager.activeCamera.updateProjectionMatrix();
 
+    this._secondViewport = {
+      width: width / 5,
+      height: height / 5
+    };
+
     this._renderer.size = {width: width, height: height};
 
     this.render();
@@ -194,6 +199,7 @@ class Ikrioma {
   }
 
   render() {
+    const renderer = this._renderer.engine;
     const camera = this.cameraManager.activeCamera;
 
     this._drawModels();
@@ -202,7 +208,20 @@ class Ikrioma {
     // If the camera contains controls, update it.
     if (camera._Ikrioma) camera._Ikrioma.controls.update();
 
-    this._renderer.engine.render(this._scene, camera);
+    renderer.setViewport(0, 0, renderer.domElement.width, renderer.domElement.height);
+
+    renderer.render(this._scene, camera);
+
+    this.__temp__loop__secondViewport();
+  }
+
+  __temp__loop__secondViewport() {
+    this._renderer.engine.clearDepth();
+    this._renderer.engine.setScissorTest(true);
+    this._renderer.engine.setScissor(20, window.innerHeight - this._secondViewport.height - 20, this._secondViewport.width, this._secondViewport.height);
+    this._renderer.engine.setViewport(20, window.innerHeight - this._secondViewport.height - 20, this._secondViewport.width, this._secondViewport.height);
+    this._renderer.engine.render(this._scene, this.cameraManager.cameras['back']);
+    this._renderer.engine.setScissorTest(false);
   }
 }
 
