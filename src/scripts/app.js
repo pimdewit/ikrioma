@@ -6,13 +6,16 @@ import { Scene, PerspectiveCamera, DirectionalLight, IcosahedronGeometry, LOD } 
 
 import GLOBAL_RESIZE from './common/resize';
 
-import TetraHedron from './models/tetrahedron/tetrahedron';
+import TetraHedron from './scene/models/tetrahedron/tetrahedron';
 
 import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
 import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/cameraManager';
 import SceneDataHelper from './helpers/scenedata';
 import CameraDataHelper from './helpers/cameradatahelper';
 import OrbitControls from './third_party/OrbitControls';
+import GlobalLight from './scene/environment/GlobalLight';
+import Ground from './scene/environment/Ground';
+import {randomNumber} from "./common/common";
 
 const MODELS = {
   ROBOTS: 1,
@@ -57,7 +60,7 @@ class Ikrioma {
 
     this.cameraManager = new CameraManager();
 
-    this.__temp__addLight();
+    this.__temp__addEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
     this.__temp__createModels();
@@ -66,11 +69,13 @@ class Ikrioma {
     this._addHelpers();
   }
 
-  /** Lights */
-  __temp__addLight() {
-    this.light = new DirectionalLight(0xffffff, 1);
-    this.light.position.set(0, 0, -100);
+  /** Environment */
+  __temp__addEnvironment() {
+    this.ground = new Ground();
+    this._scene.add(this.ground);
 
+    this.light = new GlobalLight();
+    this.light.shadow = 1000;
     this._scene.add(this.light);
   }
 
@@ -113,8 +118,11 @@ class Ikrioma {
       [ new IcosahedronGeometry( 1, 0 ), 40 ]
     ];
 
-    for ( let j = 0; j < 1; j ++ ) {
+    for ( let j = 0; j < 51; j ++ ) {
       const lod = new TetraHedron(geometry);
+      lod.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
+
+      RENDER_TARGETS.push(lod);
       this._scene.add(lod);
     }
   }

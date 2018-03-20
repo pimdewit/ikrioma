@@ -1,8 +1,8 @@
-import { MeshLambertMaterial } from 'three';
+import { MeshPhongMaterial, FaceColors } from 'three';
 
 
 export const DEFAULTS = {
-  MATERIAL: new MeshLambertMaterial({color: 0xffffff, wireframe: false}),
+  MATERIAL: new MeshPhongMaterial({ color: 0xffffff, specular: 0xffffff, shininess: 0, vertexColors: FaceColors, flatShading: true })
 };
 
 

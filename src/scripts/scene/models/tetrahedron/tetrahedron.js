@@ -14,10 +14,14 @@ export default class TetraHedron extends LOD {
 
       const mesh = new Mesh(geometry, this.material);
 
+      mesh.castShadow = true;
+      mesh.receiveShadow = true;
+
       this.addLevel(mesh, distance);
     }
   }
 
   render() {
+    this.rotation.y += 0.01;
   }
 }

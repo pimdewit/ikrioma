@@ -42,19 +42,26 @@ const DEFAULTS = {
 export class Renderer {
   constructor(canvas, config = DEFAULTS) {
 
+    const width = GLOBAL_RESIZE.width;
+    const height = GLOBAL_RESIZE.height;
+
     this._renderer = new WebGLRenderer({
       canvas: canvas,
       antialias: config.ANTI_ALIAS,
       powerPreference: config.POWER_PREFERENCE,
       alpha: config.CLEAR_ALPHA === CONSTANTS.ALPHA_TRANSPARENT
     });
+    this._renderer.shadowMap.enabled = true;
     this._renderer.setPixelRatio(window.devicePixelRatio);
+
+    this._renderer.gammaInput = true;
+    this._renderer.gammaOutput = true;
 
     this._renderer.setClearColor(config.CLEAR_COLOR, config.CLEAR_ALPHA);
 
     this.size = {
-      width: GLOBAL_RESIZE.width,
-      height: GLOBAL_RESIZE.height
+      width: width,
+      height: height
     };
 
     /**
@@ -73,6 +80,9 @@ export class Renderer {
    */
   set size(size) {
     this._renderer.setSize(size.width, size.height);
+
+    // this._renderer.setScissor(0, 0, this._renderer.domElement.width / 2, this._renderer.domElement.height);
+    // this._renderer.setScissorTest( true );
   }
 
   /** @returns {WebGLRenderer} */
