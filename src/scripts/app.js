@@ -2,24 +2,23 @@ import '../styles/main.scss';
 
 import loop from 'raf-loop';
 
-import { Scene, PerspectiveCamera, DirectionalLight, IcosahedronGeometry, LOD } from 'three';
+import { Scene, PerspectiveCamera, IcosahedronBufferGeometry, LOD } from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 
-import TetraHedron from './scene/models/tetrahedron/tetrahedron';
+import TestSphere from './scene/models/tetrahedron/tetrahedron';
 
-import { RENDER_TARGETS, Renderer, animateComponents } from './components/renderer';
-import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/cameraManager';
-import SceneDataHelper from './helpers/scenedata';
-import CameraDataHelper from './helpers/cameradatahelper';
+import { RENDER_TARGETS, Renderer } from './components/Renderer';
+import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/CameraManager';
+import SceneDataHelper from './helpers/SceneDataHelper';
+import CameraDataHelper from './helpers/CameraDataHelper';
 import OrbitControls from './third_party/OrbitControls';
 import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
-const MODELS = {
-  ROBOTS: 1,
-};
+const SPHERE_COUNT = 50;
+const SHADOW_SIZE = 1000; // higher is less accurate
 
 const CAMERA_DATA = [
   {
@@ -63,7 +62,6 @@ class Ikrioma {
     this.__temp__addEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
-    this.__temp__createModels();
 
     this._addEventListeners();
     this._addHelpers();
@@ -75,7 +73,7 @@ class Ikrioma {
     this._scene.add(this.ground);
 
     this.light = new GlobalLight();
-    this.light.shadow = 1000;
+    this.light.shadow = SHADOW_SIZE;
     this._scene.add(this.light);
   }
 
@@ -111,30 +109,19 @@ class Ikrioma {
   /** Secondary models. */
   __temp__createLODModels() {
     const geometry = [
-      [ new IcosahedronGeometry( 1, 4 ), 1 ],
-      [ new IcosahedronGeometry( 1, 3 ), 10 ],
-      [ new IcosahedronGeometry( 1, 2 ), 20 ],
-      [ new IcosahedronGeometry( 1, 1 ), 30 ],
-      [ new IcosahedronGeometry( 1, 0 ), 40 ]
+      [ new IcosahedronBufferGeometry( 1, 4 ), 1 ],
+      [ new IcosahedronBufferGeometry( 1, 3 ), 10 ],
+      [ new IcosahedronBufferGeometry( 1, 2 ), 20 ],
+      [ new IcosahedronBufferGeometry( 1, 1 ), 30 ],
+      [ new IcosahedronBufferGeometry( 1, 0 ), 40 ]
     ];
 
-    for ( let j = 0; j < 51; j ++ ) {
-      const lod = new TetraHedron(geometry);
+    for ( let j = 0; j < SPHERE_COUNT; j ++ ) {
+      const lod = new TestSphere(geometry);
       lod.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
 
       RENDER_TARGETS.push(lod);
       this._scene.add(lod);
-    }
-  }
-
-  /** Important models. */
-  __temp__createModels() {
-    for (let i = 0; i < MODELS.ROBOTS; i++) {
-      const object = new TetraHedron(1, 1, {});
-      object.position.set(0, -1, 0);
-
-      RENDER_TARGETS.push(object);
-      this._scene.add(object);
     }
   }
 

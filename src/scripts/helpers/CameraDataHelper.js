@@ -1,11 +1,12 @@
-import '../../styles/components/scenedata.scss';
-
-import DataHelper from './dataHelper';
-
 import {trimDecimals} from '../common/common';
 
-class CameraDataHelper extends DataHelper {
+import DataHelper from './DataHelper';
 
+/**
+ * Show info related to the active camera.
+ * @extends {DataHelper}
+ */
+class CameraDataHelper extends DataHelper {
   constructor(cameraManager) {
     super();
     this._data = cameraManager;

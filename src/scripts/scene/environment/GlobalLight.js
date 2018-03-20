@@ -35,8 +35,6 @@ class GlobalLight extends Object3D {
   }
 
   set shadow(scalar) {
-
-    console.log(scalar);
     if (scalar > 0) {
       this._dirLight.shadow.camera.left = -scalar;
       this._dirLight.shadow.camera.right = scalar;

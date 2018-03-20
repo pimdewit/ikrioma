@@ -2,7 +2,7 @@ import { LOD, Mesh } from 'three';
 
 import { DEFAULTS } from '../constants';
 
-export default class TetraHedron extends LOD {
+export default class TestSphere extends LOD {
   constructor(geometries, material) {
     super();
 

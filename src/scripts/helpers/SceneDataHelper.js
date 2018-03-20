@@ -1,7 +1,8 @@
-import '../../styles/components/scenedata.scss';
+import DataHelper from './DataHelper';
 
-import DataHelper from './dataHelper';
-
+/**
+ * Take the Scene renderer and extract info from it.
+ */
 class SceneDataHelper extends DataHelper {
   constructor(renderer) {
     super();

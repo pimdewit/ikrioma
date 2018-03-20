@@ -51,11 +51,12 @@ export class Renderer {
       powerPreference: config.POWER_PREFERENCE,
       alpha: config.CLEAR_ALPHA === CONSTANTS.ALPHA_TRANSPARENT
     });
-    this._renderer.shadowMap.enabled = true;
+
     this._renderer.setPixelRatio(window.devicePixelRatio);
 
     this._renderer.gammaInput = true;
     this._renderer.gammaOutput = true;
+    this._renderer.shadowMap.enabled = true;
 
     this._renderer.setClearColor(config.CLEAR_COLOR, config.CLEAR_ALPHA);
 
