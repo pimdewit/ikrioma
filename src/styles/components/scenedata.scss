@@ -6,7 +6,7 @@
 
   padding: 2em;
 
-  color: white;
+  color: black;
 
   line-height: 2;
 
@@ -31,8 +31,4 @@
 
 [ikrioma-helper-data]:not(:last-of-type) {
   margin-bottom: 1em;
-}
-
-[ikrioma-helper-data]:first-child {
-  opacity: .7;
 }

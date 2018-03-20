@@ -1,4 +1,4 @@
-import './scenedata.scss';
+import '../../styles/components/scenedata.scss';
 
 const CONSTANTS = {
   CLASS_ACTIVE: 'active',

@@ -1,4 +1,4 @@
-import './scenedata.scss';
+import '../../styles/components/scenedata.scss';
 
 import DataHelper from './dataHelper';
 
