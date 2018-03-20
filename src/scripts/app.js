@@ -57,15 +57,24 @@ class Ikrioma {
 
     this.cameraManager = new CameraManager();
 
-    this.__temp__createCamera();
     this.__temp__addLight();
-    this.__temp__createModels();
+    this.__temp__createCamera();
     this.__temp__createLODModels();
+    this.__temp__createModels();
 
     this._addEventListeners();
     this._addHelpers();
   }
 
+  /** Lights */
+  __temp__addLight() {
+    this.light = new DirectionalLight(0xffffff, 1);
+    this.light.position.set(0, 0, -100);
+
+    this._scene.add(this.light);
+  }
+
+  /** Camera */
   __temp__createCamera() {
     CAMERA_DATA.forEach(data => {
       const {id, controls, distance} = data;
@@ -94,23 +103,7 @@ class Ikrioma {
     this.cameraManager.activeCamera = 'front';
   }
 
-  __temp__addLight() {
-    this.light = new DirectionalLight(0xffffff, 1);
-    this.light.position.set(0, 0, -100);
-
-    this._scene.add(this.light);
-  }
-
-  __temp__createModels() {
-    for (let i = 0; i < MODELS.ROBOTS; i++) {
-      const object = new TetraHedron(1, 1, {});
-      object.position.set(0, -1, 0);
-
-      RENDER_TARGETS.push(object);
-      this._scene.add(object);
-    }
-  }
-
+  /** Secondary models. */
   __temp__createLODModels() {
     const geometry = [
       [ new IcosahedronGeometry( 1, 4 ), 1 ],
@@ -123,6 +116,17 @@ class Ikrioma {
     for ( let j = 0; j < 1; j ++ ) {
       const lod = new TetraHedron(geometry);
       this._scene.add(lod);
+    }
+  }
+
+  /** Important models. */
+  __temp__createModels() {
+    for (let i = 0; i < MODELS.ROBOTS; i++) {
+      const object = new TetraHedron(1, 1, {});
+      object.position.set(0, -1, 0);
+
+      RENDER_TARGETS.push(object);
+      this._scene.add(object);
     }
   }
 
@@ -157,7 +161,7 @@ class Ikrioma {
     this.cameraManager.activeCamera.aspect = width / height;
     this.cameraManager.activeCamera.updateProjectionMatrix();
 
-    this._renderer.engine.setSize(width, height);
+    this._renderer.size = {width: width, height: height};
 
     this.render();
   }
