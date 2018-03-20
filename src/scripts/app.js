@@ -18,7 +18,8 @@ import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
 const SPHERE_COUNT = 50;
-const SHADOW_SIZE = 1000; // higher is less accurate
+const SHADOW_SIZE = 128; // higher is less accurate
+const SECOND_VIEWPORT_PADDING = 16;
 
 const CAMERA_DATA = [
   {
@@ -216,12 +217,15 @@ class Ikrioma {
   }
 
   __temp__loop__secondViewport() {
-    this._renderer.engine.clearDepth();
-    this._renderer.engine.setScissorTest(true);
-    this._renderer.engine.setScissor(20, window.innerHeight - this._secondViewport.height - 20, this._secondViewport.width, this._secondViewport.height);
-    this._renderer.engine.setViewport(20, window.innerHeight - this._secondViewport.height - 20, this._secondViewport.width, this._secondViewport.height);
-    this._renderer.engine.render(this._scene, this.cameraManager.cameras['back']);
-    this._renderer.engine.setScissorTest(false);
+    const renderer = this._renderer.engine;
+    const p = SECOND_VIEWPORT_PADDING;
+    const vp2 = this._secondViewport;
+    renderer.clearDepth();
+    renderer.setScissorTest(true);
+    renderer.setScissor(p, renderer.domElement.height - vp2.height - p, vp2.width, vp2.height);
+    renderer.setViewport(p, renderer.domElement.height - vp2.height - p, vp2.width, vp2.height);
+    renderer.render(this._scene, this.cameraManager.cameras['back']);
+    renderer.setScissorTest(false);
   }
 }
 

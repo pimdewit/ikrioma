@@ -12,7 +12,7 @@ class GlobalLight extends Object3D {
 
     const hemiLightHelper = new HemisphereLightHelper(hemiLight, 10);
 
-    this._dirLight = new DirectionalLight(0xffffff, 1);
+    this._dirLight = new DirectionalLight(0xffbf00, 1);
     const dirLightHelper = new DirectionalLightHelper(this._dirLight, 10);
     this._dirLight.color.setHSL(0.1, 1, 0.95);
     this._dirLight.position.set(-1, 1.75, 1);

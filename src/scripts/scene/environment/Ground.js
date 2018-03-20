@@ -5,7 +5,7 @@ class Ground extends Object3D {
     super();
 
     const geometry = new PlaneBufferGeometry(10000, 10000);
-    const material = new MeshPhongMaterial({ color: 0xffffff, specular: 0x050505 });
+    const material = new MeshPhongMaterial({ color: 0xffbf00, specular: 0x050505 });
 
     const mesh = new Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;

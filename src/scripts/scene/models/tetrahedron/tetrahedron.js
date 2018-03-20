@@ -6,6 +6,8 @@ export default class TestSphere extends LOD {
   constructor(geometries, material) {
     super();
 
+    this.counter = Math.random() * 1000;
+
     this.material = material || DEFAULTS.MATERIAL;
 
     for (let i = 0; i < geometries.length; i++) {
@@ -22,6 +24,8 @@ export default class TestSphere extends LOD {
   }
 
   render() {
+    this.counter += 0.01;
+    this.position.y = Math.sin(this.counter) * 4;
     this.rotation.y += 0.01;
   }
 }

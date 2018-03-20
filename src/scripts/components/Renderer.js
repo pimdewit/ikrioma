@@ -1,5 +1,5 @@
 import GLOBAL_RESIZE from '../common/resize';
-import { WebGLRenderer } from 'three';
+import { WebGLRenderer, PCFShadowMap, PCFSoftShadowMap } from 'three';
 
 /** @type {Array<Object>} */
 export const RENDER_TARGETS = [];
@@ -13,7 +13,9 @@ const CONSTANTS = {
   ALPHA_TRANSPARENT: 0,
   ALPHA_SOLID: 1,
   POWER_HIGH: 'high-performance',
-  POWER_LOW: 'low-power'
+  POWER_LOW: 'low-power',
+  SHADOW_TYPE_REGULAR: PCFShadowMap,
+  SHADOW_TYPE_SOFT: PCFSoftShadowMap,
 };
 
 /**
@@ -27,7 +29,8 @@ const DEFAULTS = {
   ANTI_ALIAS: true,
   POWER_PREFERENCE: CONSTANTS.POWER_LOW,
   CLEAR_COLOR: 0xf2f3f4,
-  CLEAR_ALPHA: CONSTANTS.ALPHA_TRANSPARENT
+  CLEAR_ALPHA: CONSTANTS.ALPHA_TRANSPARENT,
+  SHADOW: CONSTANTS.SHADOW_TYPE_SOFT
 };
 
 /**
@@ -57,6 +60,7 @@ export class Renderer {
     this._renderer.gammaInput = true;
     this._renderer.gammaOutput = true;
     this._renderer.shadowMap.enabled = true;
+    this._renderer.shadowMap.type = DEFAULTS.SHADOW;
 
     this._renderer.setClearColor(config.CLEAR_COLOR, config.CLEAR_ALPHA);
 
