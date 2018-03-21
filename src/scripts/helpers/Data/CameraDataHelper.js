@@ -1,4 +1,4 @@
-import {trimDecimals} from '../common/common';
+import {trimDecimals} from '../../common/common';
 
 import DataHelper from './DataHelper';
 

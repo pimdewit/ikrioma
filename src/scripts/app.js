@@ -10,8 +10,8 @@ import TestSphere from './scene/models/tetrahedron/tetrahedron';
 
 import { RENDER_TARGETS, Renderer } from './components/Renderer';
 import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/CameraManager';
-import SceneDataHelper from './helpers/SceneDataHelper';
-import CameraDataHelper from './helpers/CameraDataHelper';
+import SceneDataHelper from './helpers/Data/SceneDataHelper';
+import CameraDataHelper from './helpers/Data/CameraDataHelper';
 import OrbitControls from './third_party/OrbitControls';
 import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
