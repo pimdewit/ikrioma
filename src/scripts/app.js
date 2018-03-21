@@ -124,7 +124,10 @@ class Ikrioma {
       const lod = new TestSphere(geometry);
       lod.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
 
-      RENDER_TARGETS.push(lod);
+      lod.debug = true;
+      this._scene.add(lod.debugMesh);
+
+      // RENDER_TARGETS.push(lod);
       this._scene.add(lod);
     }
   }
@@ -182,9 +185,9 @@ class Ikrioma {
    */
   _drawModels() {
     // If the scene contains LOD objects, update it.
-    this._scene.traverse(object => {
-      if (object instanceof LOD) {
-        object.update(this.cameraManager.activeCamera);
+    this._scene.traverse(model => {
+      if (model instanceof LOD) {
+        model.update(this.cameraManager.activeCamera);
       }
     });
   }
@@ -216,9 +219,9 @@ class Ikrioma {
     this._drawMicroComponents();
 
     // If the camera contains controls, update it.
-    if (camera._Ikrioma) camera._Ikrioma.controls.update();
+    if (camera._Ikrioma && camera._Ikrioma.controls) camera._Ikrioma.controls.update();
 
-    // renderer.setViewport(0, 0, this._width, this._height);
+    renderer.setViewport(0, 0, this._width, this._height);
 
     renderer.render(this._scene, camera);
 
@@ -227,13 +230,14 @@ class Ikrioma {
 
   __temp__loop__secondViewport() {
     const renderer = this._renderer.engine;
+    const { 'back': camera } = this.cameraManager.cameras;
     const p = SECOND_VIEWPORT_PADDING;
     const vp2 = this._secondViewport;
     renderer.clearDepth();
     renderer.setScissorTest(true);
     renderer.setScissor(p, this._height - vp2.height - p, vp2.width, vp2.height);
     renderer.setViewport(p, this._height - vp2.height - p, vp2.width, vp2.height);
-    renderer.render(this._scene, this.cameraManager.cameras['back']);
+    renderer.render(this._scene, camera);
     renderer.setScissorTest(false);
   }
 }
@@ -242,7 +246,3 @@ const canvas = document.querySelector('[ikrioma-canvas]');
 const Experiment = new Ikrioma(canvas);
 
 Experiment.looping = true;
-
-setTimeout(() => {
-  Experiment.looping = false;
-}, 5000);
