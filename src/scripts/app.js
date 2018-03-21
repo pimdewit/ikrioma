@@ -74,6 +74,7 @@ class Ikrioma {
   /** Environment */
   __temp__addEnvironment() {
     this.ground = new Ground();
+    this.ground.position.setY(-10);
     this._scene.add(this.ground);
 
     this.light = new GlobalLight();
