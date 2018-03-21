@@ -51,10 +51,13 @@ const CAMERA_DATA = [
  * @author Pim de Wit <https://pdw.io>
  */
 class Ikrioma {
-
   constructor(canvas) {
     this._scene = new Scene();
     this._renderer = new Renderer(canvas);
+
+    this._width = 0;
+    this._height = 0;
+
     this.__resize = this._resize.bind(this);
     this._engine = loop(this.render.bind(this));
 
@@ -151,18 +154,24 @@ class Ikrioma {
    * @private
    */
   _resize() {
-    const width = GLOBAL_RESIZE.width;
-    const height = GLOBAL_RESIZE.height;
+    this._width = GLOBAL_RESIZE.width;
+    this._height = GLOBAL_RESIZE.height;
 
-    this.cameraManager.activeCamera.aspect = width / height;
+    this._renderer.size = {width: this._width, height: this._height};
+
+    // Get the width and height from the canvas since it contains pixel density.
+    const renderWidth = this._renderer.engine.domElement.width;
+    const renderHeight = this._renderer.engine.domElement.height;
+
+
+    this.cameraManager.activeCamera.aspect = renderWidth / renderHeight;
     this.cameraManager.activeCamera.updateProjectionMatrix();
 
     this._secondViewport = {
-      width: width / 5,
-      height: height / 5
+      width: renderWidth / 5,
+      height: renderHeight / 5
     };
 
-    this._renderer.size = {width: width, height: height};
 
     this.render();
   }
@@ -209,7 +218,7 @@ class Ikrioma {
     // If the camera contains controls, update it.
     if (camera._Ikrioma) camera._Ikrioma.controls.update();
 
-    renderer.setViewport(0, 0, renderer.domElement.width, renderer.domElement.height);
+    renderer.setViewport(0, 0, this._width, this._height);
 
     renderer.render(this._scene, camera);
 
@@ -222,8 +231,8 @@ class Ikrioma {
     const vp2 = this._secondViewport;
     renderer.clearDepth();
     renderer.setScissorTest(true);
-    renderer.setScissor(p, renderer.domElement.height - vp2.height - p, vp2.width, vp2.height);
-    renderer.setViewport(p, renderer.domElement.height - vp2.height - p, vp2.width, vp2.height);
+    renderer.setScissor(p, this._height - vp2.height - p, vp2.width, vp2.height);
+    renderer.setViewport(p, this._height - vp2.height - p, vp2.width, vp2.height);
     renderer.render(this._scene, this.cameraManager.cameras['back']);
     renderer.setScissorTest(false);
   }

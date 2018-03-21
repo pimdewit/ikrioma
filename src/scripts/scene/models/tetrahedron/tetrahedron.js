@@ -26,6 +26,6 @@ export default class TestSphere extends LOD {
   render() {
     this.counter += 0.01;
     this.position.y = Math.sin(this.counter) * 4;
-    this.rotation.y += 0.01;
+    this.rotation.y += Math.cos(this.counter) / 20;
   }
 }
