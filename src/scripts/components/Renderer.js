@@ -30,7 +30,7 @@ const DEFAULTS = {
   POWER_PREFERENCE: CONSTANTS.POWER_LOW,
   CLEAR_COLOR: 0xf2f3f4,
   CLEAR_ALPHA: CONSTANTS.ALPHA_TRANSPARENT,
-  SHADOW: CONSTANTS.SHADOW_TYPE_SOFT
+  SHADOW: CONSTANTS.SHADOW_TYPE_REGULAR
 };
 
 /**
@@ -51,6 +51,7 @@ export class Renderer {
     this._renderer = new WebGLRenderer({
       canvas: canvas,
       antialias: config.ANTI_ALIAS,
+      // depth: false,
       powerPreference: config.POWER_PREFERENCE,
       alpha: config.CLEAR_ALPHA === CONSTANTS.ALPHA_TRANSPARENT
     });
@@ -61,6 +62,7 @@ export class Renderer {
     this._renderer.gammaOutput = true;
     this._renderer.shadowMap.enabled = true;
     this._renderer.shadowMap.type = DEFAULTS.SHADOW;
+    this._renderer.shadowMap.autoUpdate = true;
 
     this._renderer.setClearColor(config.CLEAR_COLOR, config.CLEAR_ALPHA);
 

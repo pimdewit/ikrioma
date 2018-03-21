@@ -18,7 +18,7 @@ import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
 const SPHERE_COUNT = 50;
-const SHADOW_SIZE = 128; // higher is less accurate
+const SHADOW_SIZE = 1280; // higher is less accurate
 const SECOND_VIEWPORT_PADDING = 16;
 
 const CAMERA_DATA = [
@@ -68,7 +68,7 @@ class Ikrioma {
     this.__temp__createLODModels();
 
     this._addEventListeners();
-    this._addHelpers();
+    // this._addHelpers();
   }
 
   /** Environment */
@@ -218,11 +218,11 @@ class Ikrioma {
     // If the camera contains controls, update it.
     if (camera._Ikrioma) camera._Ikrioma.controls.update();
 
-    renderer.setViewport(0, 0, this._width, this._height);
+    // renderer.setViewport(0, 0, this._width, this._height);
 
     renderer.render(this._scene, camera);
 
-    this.__temp__loop__secondViewport();
+    // this.__temp__loop__secondViewport();
   }
 
   __temp__loop__secondViewport() {
@@ -242,3 +242,7 @@ const canvas = document.querySelector('[ikrioma-canvas]');
 const Experiment = new Ikrioma(canvas);
 
 Experiment.looping = true;
+
+setTimeout(() => {
+  Experiment.looping = false;
+}, 5000);
