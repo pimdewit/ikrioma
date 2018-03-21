@@ -17,8 +17,9 @@ import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
-const SPHERE_COUNT = 50;
-const SHADOW_SIZE = 1280; // higher is less accurate
+const SPHERE_COUNT = 100;
+const SPHERE_POS_RANDOMNESS = 30;
+const SHADOW_SIZE = 512; // higher is less accurate
 const SECOND_VIEWPORT_PADDING = 16;
 
 const CAMERA_DATA = [
@@ -65,7 +66,7 @@ class Ikrioma {
 
     this.__temp__addEnvironment();
     this.__temp__createCamera();
-    this.__temp__createLODModels();
+      this.__temp__createLODModels();
 
     this._addEventListeners();
     // this._addHelpers();
@@ -121,14 +122,14 @@ class Ikrioma {
       [ new IcosahedronBufferGeometry( 1, 0 ), 40 ]
     ];
 
-    for ( let j = 0; j < SPHERE_COUNT; j ++ ) {
+    for (let j = 0; j < SPHERE_COUNT; j++) {
       const lod = new TestSphere(geometry);
-      lod.position.set(randomNumber(10), randomNumber(10), randomNumber(10));
+      lod.position.set(randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS));
 
-      lod.debug = true;
-      this._scene.add(lod.debugMesh);
+      // lod.debug = true;
+      // this._scene.add(lod.debugMesh);
 
-      // RENDER_TARGETS.push(lod);
+      RENDER_TARGETS.push(lod);
       this._scene.add(lod);
     }
   }
@@ -203,7 +204,7 @@ class Ikrioma {
     for (i; i >= 0; i--) {
       const target = RENDER_TARGETS[i];
       if (typeof target.render === 'function') {
-        target.render();
+      target.render();
       } else {
         console.warn(`%c${target.constructor.name}`, 'font-weight: bold', `does not have a render() method.`);
         console.warn(`Removing target from render targets array.`);
