@@ -17,9 +17,9 @@ import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
-const SPHERE_COUNT = 100;
-const SPHERE_POS_RANDOMNESS = 30;
-const SHADOW_SIZE = 512; // higher is less accurate
+const SPHERE_COUNT = 10;
+const SPHERE_POS_RANDOMNESS = 3;
+const SHADOW_SIZE = 32; // higher is less accurate
 const SECOND_VIEWPORT_PADDING = 16;
 
 const CAMERA_DATA = [
@@ -66,7 +66,7 @@ class Ikrioma {
 
     this.__temp__addEnvironment();
     this.__temp__createCamera();
-      this.__temp__createLODModels();
+    this.__temp__createLODModels();
 
     this._addEventListeners();
     // this._addHelpers();

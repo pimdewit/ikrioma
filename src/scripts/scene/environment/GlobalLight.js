@@ -18,15 +18,13 @@ class GlobalLight extends Object3D {
     this._dirLight.position.set(-1, 1.75, 1);
     this._dirLight.position.multiplyScalar(30);
 
-    this._dirLight.castShadow = true;
-
-    this._dirLight.shadow.mapSize.width = 2048;
-    this._dirLight.shadow.mapSize.height = 2048;
+    this._dirLight.shadow.mapSize.width = 1024;
+    this._dirLight.shadow.mapSize.height = 1024;
 
     this._dirLight.shadow.camera.far = 3500;
-    this._dirLight.shadow.bias = -0.0001;
+    this._dirLight.shadow.bias = 0;
 
-    const helper = new CameraHelper( this._dirLight.shadow.camera );
+    const helper = new CameraHelper(this._dirLight.shadow.camera);
 
     this.add(ambient);
     this.add(hemiLight);
@@ -36,6 +34,7 @@ class GlobalLight extends Object3D {
 
   set shadow(scalar) {
     if (scalar > 0) {
+      this._dirLight.castShadow = true;
       this._dirLight.shadow.camera.left = -scalar;
       this._dirLight.shadow.camera.right = scalar;
       this._dirLight.shadow.camera.top = scalar;

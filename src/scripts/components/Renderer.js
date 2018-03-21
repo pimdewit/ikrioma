@@ -30,7 +30,7 @@ const DEFAULTS = {
   POWER_PREFERENCE: CONSTANTS.POWER_LOW,
   CLEAR_COLOR: 0xf2f3f4,
   CLEAR_ALPHA: CONSTANTS.ALPHA_TRANSPARENT,
-  SHADOW: CONSTANTS.SHADOW_TYPE_REGULAR
+  SHADOW: CONSTANTS.SHADOW_TYPE_SOFT
 };
 
 /**
@@ -87,9 +87,6 @@ export class Renderer {
    */
   set size(size) {
     this._renderer.setSize(size.width, size.height);
-
-    // this._renderer.setScissor(0, 0, this._renderer.domElement.width / 2, this._renderer.domElement.height);
-    // this._renderer.setScissorTest( true );
   }
 
   /** @returns {WebGLRenderer} */
