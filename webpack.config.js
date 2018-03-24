@@ -11,6 +11,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports ={
   devtool: 'eval-source-map',
+  mode: 'development',
   entry: path.join(root, 'src/scripts', 'app.js'),
   output: {
     path: path.join(root, 'dist'),
