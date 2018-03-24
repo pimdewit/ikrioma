@@ -6,7 +6,7 @@ import { Scene, PerspectiveCamera, IcosahedronBufferGeometry, LOD } from 'three'
 
 import GLOBAL_RESIZE from './common/resize';
 
-import TestSphere from './scene/models/tetrahedron/tetrahedron';
+import TestSphere from './scene/models/TestSphere/TestSphere';
 
 import { RENDER_TARGETS, Renderer } from './components/Renderer';
 import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/CameraManager';
