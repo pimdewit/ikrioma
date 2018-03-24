@@ -1,14 +1,12 @@
 import '../styles/main.scss';
 
-import loop from 'raf-loop';
-
 import {IcosahedronBufferGeometry, LOD, PerspectiveCamera, Scene} from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 
 import TestSphere from './scene/models/TestSphere/TestSphere';
 
-import { RENDER_TARGETS, Renderer } from './components/Renderer';
+import {RENDER_TARGETS, Renderer} from './components/Renderer';
 import CameraManager, {CONSTANTS as CAMERA_CONSTANTS} from './components/CameraManager';
 import SceneDataHelper from './helpers/Data/SceneDataHelper';
 import CameraDataHelper from './helpers/Data/CameraDataHelper';
@@ -49,6 +47,9 @@ const CAMERA_DATA = [
   }
 ];
 
+
+//typeof render === function = 1.8ms
+
 /**
  * Ikrioma.
  * @author Pim de Wit <https://pdw.io>
@@ -58,26 +59,66 @@ class Ikrioma {
     this._scene = new Scene();
     this._renderer = new Renderer(canvas);
 
+
     this._width = 0;
     this._height = 0;
 
     this.__resize = this._resize.bind(this);
-    this._engine = loop(this.render.bind(this));
 
     this.cameraManager = new CameraManager();
+
+    this.__temp__LODObjects = [];
 
     this.__temp__addEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
 
     this._addEventListeners();
-    // this._addHelpers();
+    // this.__temp__createHelpers();
   }
 
-  /** Environment */
+  set looping(loop) {
+    this.active = loop;
+
+    if (loop) {
+      this.render();
+    }
+  }
+
+  _addEventListeners() {
+    GLOBAL_RESIZE.addListener(this.__resize);
+    this._renderer.canvas.addEventListener('pointermove', this.__onPointerMove);
+  }
+
+  _resize() {
+    this._width = GLOBAL_RESIZE.width;
+    this._height = GLOBAL_RESIZE.height;
+
+    this._renderer.size = {width: this._width, height: this._height};
+
+    // Get the width and height from the canvas since it contains pixel density.
+    const renderWidth = this._renderer.engine.domElement.width;
+    const renderHeight = this._renderer.engine.domElement.height;
+
+
+    this.cameraManager.activeCamera.aspect = renderWidth / renderHeight;
+    this.cameraManager.activeCamera.updateProjectionMatrix();
+
+    this._secondViewport = {
+      width: renderWidth / 5,
+      height: renderHeight / 5
+    };
+
+
+    this.render();
+  }
+
   __temp__addEnvironment() {
     this.ground = new Ground();
+
     this.ground.position.setY(-10);
+    this.ground.updateMatrix();
+
     this._scene.add(this.ground);
 
     this.light = new GlobalLight();
@@ -85,7 +126,6 @@ class Ikrioma {
     this._scene.add(this.light);
   }
 
-  /** Camera */
   __temp__createCamera() {
     CAMERA_DATA.forEach(data => {
       const {id, controls, distance} = data;
@@ -114,93 +154,48 @@ class Ikrioma {
     this.cameraManager.activeCamera = 'front';
   }
 
-  /** Secondary models. */
   __temp__createLODModels() {
-    const geometry = [
-      [ new IcosahedronBufferGeometry( 1, 4 ), 1 ],
-      [ new IcosahedronBufferGeometry( 1, 3 ), 10 ],
-      [ new IcosahedronBufferGeometry( 1, 2 ), 20 ],
-      [ new IcosahedronBufferGeometry( 1, 1 ), 30 ],
-      [ new IcosahedronBufferGeometry( 1, 0 ), 40 ]
+    const mat1 = DEFAULTS.MATERIAL;
+    const mat2 = DEFAULTS.MATERIAL_TWO;
+
+    const meshInfo = [
+      [ new IcosahedronBufferGeometry( 1, 4 ), mat1, 1 ],
+      [ new IcosahedronBufferGeometry( 1, 3 ), mat2, 10 ],
+      [ new IcosahedronBufferGeometry( 1, 2 ), mat1, 20 ],
+      [ new IcosahedronBufferGeometry( 1, 1 ), mat2, 30 ],
+      [ new IcosahedronBufferGeometry( 1, 0 ), mat1, 40 ]
     ];
 
     for (let j = 0; j < SPHERE_COUNT; j++) {
-      const lod = new TestSphere(geometry);
+      const lod = new TestSphere(meshInfo);
       lod.position.set(randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS));
 
       // lod.debug = true;
       // this._scene.add(lod.debugMesh);
+
+      this.__temp__LODObjects.push(lod);
 
       RENDER_TARGETS.push(lod);
       this._scene.add(lod);
     }
   }
 
-  set looping(loop) {
-    loop ? this._engine.start() : this._engine.stop();
-  }
-
-  /**
-   * Add event listeners.
-   * @private
-   */
-  _addEventListeners() {
-    GLOBAL_RESIZE.addListener(this.__resize);
-    this._renderer.canvas.addEventListener('pointermove', this.__onPointerMove);
-  }
-
-  _addHelpers() {
+  __temp__createHelpers() {
     this.cameraHelper = new CameraDataHelper(this.cameraManager);
     RENDER_TARGETS.push(this.cameraHelper);
     this.sceneHelper = new SceneDataHelper(this._renderer);
     RENDER_TARGETS.push(this.sceneHelper);
   }
 
-  /**
-   * Resize handler.
-   * @private
-   */
-  _resize() {
-    this._width = GLOBAL_RESIZE.width;
-    this._height = GLOBAL_RESIZE.height;
+  __temp__loop__DrawModels() {
+    let i = this.__temp__LODObjects.length - 1;
 
-    this._renderer.size = {width: this._width, height: this._height};
-
-    // Get the width and height from the canvas since it contains pixel density.
-    const renderWidth = this._renderer.engine.domElement.width;
-    const renderHeight = this._renderer.engine.domElement.height;
-
-
-    this.cameraManager.activeCamera.aspect = renderWidth / renderHeight;
-    this.cameraManager.activeCamera.updateProjectionMatrix();
-
-    this._secondViewport = {
-      width: renderWidth / 5,
-      height: renderHeight / 5
-    };
-
-
-    this.render();
+    for (i; i >= 0; i--) {
+      this.__temp__LODObjects[i].update(this.cameraManager.activeCamera);
+    }
   }
 
-  /**
-   * Drawing loop which specifically handles models/meshes in particular.
-   * @private
-   */
-  _drawModels() {
-    // If the scene contains LOD objects, update it.
-    this._scene.traverse(model => {
-      if (model instanceof LOD) {
-        model.update(this.cameraManager.activeCamera);
-      }
-    });
-  }
-
-  /**
-   * Draw the logic for small components that are not as important as the main models.
-   * @private
-   */
-  _drawMicroComponents() {
+  __temp__loop__DrawMicroComponents() {
     let i = RENDER_TARGETS.length - 1;
 
     for (i; i >= 0; i--) {
@@ -215,23 +210,6 @@ class Ikrioma {
     }
   }
 
-  render() {
-    const renderer = this._renderer.engine;
-    const camera = this.cameraManager.activeCamera;
-
-    this._drawModels();
-    this._drawMicroComponents();
-
-    // If the camera contains controls, update it.
-    if (camera._Ikrioma && camera._Ikrioma.controls) camera._Ikrioma.controls.update();
-
-    renderer.setViewport(0, 0, this._width, this._height);
-
-    renderer.render(this._scene, camera);
-
-    // this.__temp__loop__secondViewport();
-  }
-
   __temp__loop__secondViewport() {
     const renderer = this._renderer.engine;
     const { 'back': camera } = this.cameraManager.cameras;
@@ -243,6 +221,25 @@ class Ikrioma {
     renderer.setViewport(p, this._height - vp2.height - p, vp2.width, vp2.height);
     renderer.render(this._scene, camera);
     renderer.setScissorTest(false);
+  }
+
+  render() {
+    const renderer = this._renderer.engine;
+    const camera = this.cameraManager.activeCamera;
+
+    this.__temp__loop__DrawModels();
+    this.__temp__loop__DrawMicroComponents();
+
+    // If the camera contains controls, update it.
+    if (camera._Ikrioma && camera._Ikrioma.controls) camera._Ikrioma.controls.update();
+
+    // renderer.setViewport(0, 0, this._width, this._height);
+
+    renderer.render(this._scene, camera);
+
+    // this.__temp__loop__secondViewport();
+
+    if (this.active) requestAnimationFrame(this.render.bind(this));
   }
 }
 
