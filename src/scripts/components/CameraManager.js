@@ -19,27 +19,19 @@ export const CONSTANTS = {
 class CameraManager {
   constructor() {
     /**
+     * Will contain all the cameras.
      * @since 0.0.1
      *
      * @type {object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
      */
     this._cameras = {};
-
-    /**
-     *
-     * @since 0.0.1
-     *
-     * @type {string}
-     * @private
-     */
-    this._activeCameraName = '';
   }
 
   /**
    * Get an object of all camera's managed by this instance.
    * @since 0.0.1
    *
-   * @return {Object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
+   * @return {object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
    */
   get cameras() {
     return this._cameras;
@@ -53,7 +45,6 @@ class CameraManager {
    */
   set activeCamera(key) {
     this._activeCamera = this._cameras[key];
-    this._activeCameraName = key;
   }
 
   /**
@@ -73,7 +64,7 @@ class CameraManager {
    * @returns {string}
    */
   get activeCameraName() {
-    return this._activeCameraName;
+    return this.activeCamera._Ikrioma.id;
   }
 
   /**
@@ -86,6 +77,14 @@ class CameraManager {
    */
   add(key, camera) {
     if (!this._cameras.hasOwnProperty(key)) {
+
+      if (typeof camera._Ikrioma === 'undefined') {
+        camera._Ikrioma = {};
+      }
+
+      camera._Ikrioma.id = key;
+      camera._Ikrioma.active = false;
+
       this._cameras[key] = camera;
     }
   }
