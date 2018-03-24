@@ -11,6 +11,8 @@ class Ground extends Object3D {
     mesh.rotation.x = -Math.PI / 2;
     mesh.receiveShadow = true;
 
+    this.matrixAutoUpdate = false;
+
     this.add(mesh);
   }
 }

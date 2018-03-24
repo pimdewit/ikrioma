@@ -3,18 +3,17 @@ import { LOD, Mesh, BoxHelper } from 'three';
 import { DEFAULTS } from '../constants';
 
 export default class TestSphere extends LOD {
-  constructor(geometries, material, debug = false) {
+  constructor(meshInfo, debug = false) {
     super();
 
     this.counter = Math.random() * 1000;
 
-    this.material = material || DEFAULTS.MATERIAL;
+    for (let i = 0; i < meshInfo.length; i++) {
+      const geometry = meshInfo[i][0];
+      const material = meshInfo[i][1];
+      const distance = meshInfo[i][2];
 
-    for (let i = 0; i < geometries.length; i++) {
-      const geometry = geometries[i][0];
-      const distance = geometries[i][1];
-
-      const mesh = new Mesh(geometry, this.material);
+      const mesh = new Mesh(geometry, material);
 
       mesh.castShadow = true;
       mesh.receiveShadow = true;

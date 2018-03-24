@@ -2,7 +2,7 @@ import '../styles/main.scss';
 
 import loop from 'raf-loop';
 
-import { Scene, PerspectiveCamera, IcosahedronBufferGeometry, LOD } from 'three';
+import {IcosahedronBufferGeometry, LOD, PerspectiveCamera, Scene} from 'three';
 
 import GLOBAL_RESIZE from './common/resize';
 
@@ -16,6 +16,8 @@ import OrbitControls from './third_party/OrbitControls';
 import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
+
+import { DEFAULTS } from './scene/models/constants';
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
