@@ -79,10 +79,15 @@ class Ikrioma {
 
   set looping(loop) {
     this.active = loop;
+    this._looping = loop;
 
     if (loop) {
       this.render();
     }
+  }
+
+  get looping() {
+    return this._looping;
   }
 
   _addEventListeners() {
@@ -110,7 +115,7 @@ class Ikrioma {
     };
 
 
-    this.render();
+    if (!this.looping) this.render();
   }
 
   __temp__addEnvironment() {

@@ -33,8 +33,8 @@ class GlobalLight extends Object3D {
     const texture = loader.load('https://i.imgur.com/jPXCDrq.png');
     const lensflare = new Lensflare();
 
-    lensflare.addElement(new LensflareElement(texture, 2000, 0));
-    lensflare.addElement(new LensflareElement(texture, 80, 0.4));
+    lensflare.addElement(new LensflareElement(texture, 3200, 0));
+    lensflare.addElement(new LensflareElement(texture, 200, 0.4));
     lensflare.addElement(new LensflareElement(texture, 120, 0.7));
     lensflare.addElement(new LensflareElement(texture, 70, 1));
     this._dirLight.add(lensflare);
@@ -42,12 +42,12 @@ class GlobalLight extends Object3D {
     this.add(ambient);
 
     this.add(hemiLight);
-    this.add(hemiLightHelper);
+    // this.add(hemiLightHelper);
 
     this.add(this._dirLight);
-    this.add(dirLightHelper);
+    // this.add(dirLightHelper);
 
-    this.add(helper);
+    // this.add(helper);
 
   }
 
