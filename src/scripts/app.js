@@ -223,6 +223,10 @@ class Ikrioma {
     renderer.setScissorTest(false);
   }
 
+  __temp__interpolation(start, end, alpha) {
+    return start * (1 - alpha) + end * alpha;
+  }
+
   render() {
     const renderer = this._renderer.engine;
     const camera = this.cameraManager.activeCamera;
@@ -232,6 +236,10 @@ class Ikrioma {
 
     // If the camera contains controls, update it.
     if (camera._Ikrioma && camera._Ikrioma.controls) camera._Ikrioma.controls.update();
+
+    if ( camera.position.y < 0) {
+      camera.position.y = this.__temp__interpolation(camera.position.y, 0, 0.01);
+    }
 
     // renderer.setViewport(0, 0, this._width, this._height);
 
