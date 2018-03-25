@@ -149,7 +149,7 @@ export function Lensflare() {
 		},
 		vertexShader: shader.vertexShader,
 		fragmentShader: shader.fragmentShader,
-		blending: AdditiveBlending,
+		blending: NormalBlending,
 		transparent: true,
 		depthWrite: false
 	} );
