@@ -1,4 +1,7 @@
-import { Object3D, HemisphereLight, AmbientLight, DirectionalLight, HemisphereLightHelper, DirectionalLightHelper, CameraHelper } from 'three';
+import { Object3D, HemisphereLight, AmbientLight, DirectionalLight, HemisphereLightHelper, DirectionalLightHelper, CameraHelper, TextureLoader } from 'three';
+
+import {Lensflare as LensflareTwo, LensflareElement as L2} from '../../third_party/Lensflare';
+import Lensflare, {LensflareElement} from '../../components/Lensflare/Lensflare';
 
 class GlobalLight extends Object3D {
   constructor(hemiColor) {
@@ -26,10 +29,29 @@ class GlobalLight extends Object3D {
 
     const helper = new CameraHelper(this._dirLight.shadow.camera);
 
+
+    const loader = new TextureLoader();
+    const texture = loader.load('https://i.imgur.com/jPXCDrq.png');
+    // const lensflare = new Lensflare();
+    const lensflare = new LensflareTwo();
+    // const lensflareElement = new LensflareElement(texture, 2000, 0);
+
+    lensflare.addElement(new LensflareElement(texture, 2000, 0));
+    // lensflare.addElement(new LensflareElement(texture, 80, 0.4));
+    // lensflare.addElement(new LensflareElement(texture, 120, 0.7));
+    // lensflare.addElement(new LensflareElement(texture, 70, 1));
+    this._dirLight.add(lensflare);
+
     this.add(ambient);
+
     this.add(hemiLight);
+    // this.add(hemiLightHelper);
+
     this.add(this._dirLight);
+    // this.add(dirLightHelper);
+
     this.add(helper);
+
   }
 
   set shadow(scalar) {
