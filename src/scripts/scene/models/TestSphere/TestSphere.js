@@ -35,6 +35,8 @@ export default class TestSphere extends LOD {
       this._Ikrioma.debugBoundingBox.material.color.setHex(0x000000);
       this._hasDebugMesh = true;
     }
+
+    if (this._hasDebugMesh) this.debugMesh.visible = debug;
   }
 
   get debug() {
