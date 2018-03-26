@@ -8,6 +8,7 @@ const webpack = require('webpack');
 const path = require('path');
 const root = path.join(__dirname);
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports ={
   devtool: 'eval-source-map',
@@ -31,7 +32,8 @@ module.exports ={
       template: 'src/index.tpl.html',
       inject: 'body',
       filename: 'index.html'
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   resolve: {
     modules: [
