@@ -10,13 +10,12 @@ import {
 /**
  * @author Mugen87 / https://github.com/Mugen87
  * @author mrdoob / http://mrdoob.com/
- * @author pimdewit / https://pdw.io/
  */
 
 export function Lensflare() {
 
 	Mesh.call( this, Lensflare.Geometry, new MeshBasicMaterial( { opacity: 0, transparent: true } ) );
-  console.log(this);
+
 	this.type = 'Lensflare';
 	this.frustumCulled = false;
 	this.renderOrder = Infinity;
@@ -208,15 +207,6 @@ export function Lensflare() {
 			var uniforms = material1a.uniforms;
 			uniforms.scale.value = scale;
 			uniforms.screenPosition.value = positionScreen;
-
-			console.log(geometry.type);
-			console.log(geometry);
-			console.log(material1a.type);
-			console.log(material1a);
-			console.log(mesh1.type);
-			console.log(mesh1);
-
-			debugger;
 
 			renderer.renderBufferDirect( camera, null, geometry, material1a, mesh1, null );
 

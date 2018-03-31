@@ -16,6 +16,7 @@ import Ground from './scene/environment/Ground';
 import {randomNumber} from "./common/common";
 
 import { DEFAULTS } from './scene/models/constants';
+import HighLighter from "./scene/models/Highlighter/Highlighter";
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
@@ -48,8 +49,6 @@ const CAMERA_DATA = [
 ];
 
 
-//typeof render === function = 1.8ms
-
 /**
  * Ikrioma.
  * @author Pim de Wit <https://pdw.io>
@@ -72,9 +71,10 @@ class Ikrioma {
     this.__temp__addEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
+    this.__temp__createTextureAnimationModel();
 
     this._addEventListeners();
-    // this.__temp__createHelpers();
+    this.__temp__createHelpers();
   }
 
   set looping(loop) {
@@ -118,6 +118,26 @@ class Ikrioma {
     if (!this.looping) this.render();
   }
 
+  __temp__createTextureAnimationModel() {
+
+    /**
+     * TODO: Find way to make Object3D's share the same shader instance. Yet with different uniforms.
+     */
+    for (let j = 0; j < 20; j++) {
+      const highlighter = new HighLighter();
+
+      highlighter.position.set(
+        -200 + (20 * j),
+        0,
+        randomNumber(SPHERE_POS_RANDOMNESS) + 5);
+
+      highlighter.updateMatrix();
+      this._scene.add(highlighter);
+
+      RENDER_TARGETS.push(highlighter);
+    }
+  }
+
   __temp__addEnvironment() {
     this.ground = new Ground();
 
@@ -125,6 +145,10 @@ class Ikrioma {
     this.ground.updateMatrix();
 
     this._scene.add(this.ground);
+
+    /**
+     * TODO: Refactor LensFlare to accept graphics straight from a canvas.
+     */
 
     this.light = new GlobalLight();
     this.light.shadow = SHADOW_SIZE;
@@ -171,9 +195,15 @@ class Ikrioma {
       [ new IcosahedronBufferGeometry( 1, 0 ), mat1, 40 ]
     ];
 
+    /**
+     * TODO: Find way to clone the created geometry rather then re-doing all the logic from scratch again.
+     */
     for (let j = 0; j < SPHERE_COUNT; j++) {
       const lod = new TestSphere(meshInfo);
-      lod.position.set(randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS), randomNumber(SPHERE_POS_RANDOMNESS));
+      lod.position.set(
+        randomNumber(SPHERE_POS_RANDOMNESS),
+        randomNumber(SPHERE_POS_RANDOMNESS),
+        randomNumber(SPHERE_POS_RANDOMNESS));
 
       // lod.debug = true;
       // this._scene.add(lod.debugMesh);
@@ -242,7 +272,7 @@ class Ikrioma {
     // If the camera contains controls, update it.
     if (camera._Ikrioma && camera._Ikrioma.controls) camera._Ikrioma.controls.update();
 
-    if ( camera.position.y < 0) {
+    if (camera.position.y < 0) {
       camera.position.y = this.__temp__interpolation(camera.position.y, 0, 0.01);
     }
 

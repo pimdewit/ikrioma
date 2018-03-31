@@ -21,15 +21,13 @@ class CameraDataHelper extends DataHelper {
     const {x: pX, y: pY, z: pZ} = activeCamera.position;
     const {x: rX, y: rY, z: rZ} = activeCamera.rotation;
 
-    const object = {
+    return {
       cameraList: Object.keys(this._data.cameras).toString(),
       activeCamera: this._data.activeCameraName,
       activePosition: `${trimDecimals(pX)}, ${trimDecimals(pY)}, ${trimDecimals(pZ)}`,
       activeRotation:  `${trimDecimals(rX)}, ${trimDecimals(rY)}, ${trimDecimals(rZ)}`,
       controlType: controls
     };
-
-    return object;
   }
 
   render() {
