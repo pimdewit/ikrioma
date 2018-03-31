@@ -1,5 +1,7 @@
 import {Object3D, Mesh, PlaneBufferGeometry, ShaderMaterial, AdditiveBlending} from 'three';
-import Shader from './shader/Circle.glsl';
+
+import vertex from './shader/Circle.vert.glsl';
+import fragment from './shader/Circle.frag.glsl';
 
 class HighLighter extends Object3D {
   constructor() {
@@ -14,8 +16,8 @@ class HighLighter extends Object3D {
     const geometry = new PlaneBufferGeometry(16, 16);
     const material = new ShaderMaterial( {
       uniforms:this.uniforms,
-      vertexShader: Shader.vertex,
-      fragmentShader: Shader.fragment,
+      vertexShader: vertex,
+      fragmentShader: fragment,
       blending: AdditiveBlending,
       transparent: true
     });

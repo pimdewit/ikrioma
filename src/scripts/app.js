@@ -92,7 +92,7 @@ class Ikrioma {
 
   _addEventListeners() {
     GLOBAL_RESIZE.addListener(this.__resize);
-    this._renderer.canvas.addEventListener('pointermove', this.__onPointerMove);
+    // this._renderer.canvas.addEventListener('pointermove', this.__onPointerMove);
   }
 
   _resize() {
@@ -127,9 +127,7 @@ class Ikrioma {
       const highlighter = new HighLighter();
 
       highlighter.position.set(
-        -200 + (20 * j),
-        0,
-        randomNumber(SPHERE_POS_RANDOMNESS) + 5);
+        -200 + (20 * j), 0, 5);
 
       highlighter.updateMatrix();
       this._scene.add(highlighter);
