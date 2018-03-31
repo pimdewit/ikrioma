@@ -85,6 +85,10 @@ module.exports ={
           name: 'static/images/[hash].[ext]'
         }
       },
+      {
+        test: /\.glsl$/,
+        loader: 'webpack-glsl-loader'
+      }
     ]
   }
 };
