@@ -3,17 +3,44 @@ import {trimDecimals} from '../../common/common';
 import DataHelper from './DataHelper';
 
 /**
+ * @author Pim de Wit / https://pdw.io
+ *
+ * @class
+ * @classdesc
  * Show info related to the active camera.
+ *
+ * @since 0.0.1
  * @extends {DataHelper}
  */
 class CameraDataHelper extends DataHelper {
   constructor(cameraManager) {
     super();
+
+    /**
+     * The data source.
+     *
+     * @since 0.0.1
+     * @private
+     * @readonly
+     *
+     * @type {CameraManager}
+     */
     this._data = cameraManager;
 
     this._createDOM(this.managerData);
   }
 
+  /**
+   * A stringified && rounded version of the data source.
+   *
+   * @memberOf CameraDataHelper
+   * @since 0.0.1
+   * @public
+   * @readonly
+   *
+   * @type {object}
+   * @returns {object<string>}
+   */
   get managerData() {
     const activeCamera = this._data.activeCamera;
     const controls = activeCamera._Ikrioma ? activeCamera._Ikrioma.controls.constructor.name : 'N/A';
@@ -30,6 +57,13 @@ class CameraDataHelper extends DataHelper {
     };
   }
 
+  /**
+   * Render the processed data to display into its own assigned DOM elements.
+   *
+   * @memberOf CameraDataHelper
+   * @since 0.0.1
+   * @public
+   */
   render() {
     if (!this._active) return;
 
