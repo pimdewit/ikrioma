@@ -1,3 +1,11 @@
+/**
+ * TODO: Texture loader
+ * TODO: Ortographic camera
+ * TODO: Canvas to texture
+ */
+
+
+
 import '../styles/main.scss';
 
 import {IcosahedronBufferGeometry, LOD, PerspectiveCamera, Scene} from 'three';
@@ -17,6 +25,7 @@ import {randomNumber} from "./common/common";
 
 import { DEFAULTS } from './scene/models/constants';
 import HighLighter from "./scene/models/Highlighter/Highlighter";
+import Graphic from './components/sandbox';
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
@@ -75,6 +84,8 @@ class Ikrioma {
 
     this._addEventListeners();
     this.__temp__createHelpers();
+
+    // this.__temp__replaceTexture();
   }
 
   set looping(loop) {
@@ -96,14 +107,15 @@ class Ikrioma {
   }
 
   _resize() {
-    this._width = GLOBAL_RESIZE.width;
-    this._height = GLOBAL_RESIZE.height;
+    const canvas = this._renderer.engine.domElement;
+    this._width = canvas.parentNode.offsetWidth;
+    this._height = canvas.parentNode.offsetHeight;
 
     this._renderer.size = {width: this._width, height: this._height};
 
     // Get the width and height from the canvas since it contains pixel density.
-    const renderWidth = this._renderer.engine.domElement.width;
-    const renderHeight = this._renderer.engine.domElement.height;
+    const renderWidth = canvas.width;
+    const renderHeight = canvas.height;
 
 
     this.cameraManager.activeCamera.aspect = renderWidth / renderHeight;

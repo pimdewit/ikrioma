@@ -1,4 +1,3 @@
-import '../../../styles/components/_datahelper.scss';
 
 const CONSTANTS = {
   CLASS_ACTIVE: 'active',
