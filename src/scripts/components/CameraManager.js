@@ -8,6 +8,7 @@ export const CONSTANTS = {
 };
 
 /**
+ * @author Pim de Wit / https://pdw.io
  * @class
  * @classdesc
  * The Camera Manager handles which camera is active.
@@ -20,15 +21,17 @@ class CameraManager {
   constructor() {
     /**
      * Will contain all the cameras.
+     *
      * @since 0.0.1
      *
-     * @type {object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
+     * @type {Object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
      */
     this._cameras = {};
   }
 
   /**
    * Get an object of all camera's managed by this instance.
+   *
    * @since 0.0.1
    *
    * @return {object<Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera>}
@@ -39,6 +42,7 @@ class CameraManager {
 
   /**
    * Set the active camera instance.
+   *
    * @since 0.0.1
    *
    * @param {String} key The key of the camera to set active.
@@ -49,6 +53,7 @@ class CameraManager {
 
   /**
    * Get the current active camera instance.
+   *
    * @since 0.0.1
    *
    * @return {Camera|PerspectiveCamera|OrthographicCamera|CubeCamera|StereoCamera}
@@ -59,6 +64,7 @@ class CameraManager {
 
   /**
    * Get the key of the current active camera.
+   *
    * @since 0.0.1
    *
    * @returns {string}
@@ -90,6 +96,8 @@ class CameraManager {
   }
 
   /**
+   * Remove a camera from the manager.
+   *
    * @since 0.0.1
    *
    * @param {string} key The unique key of the camera you wish to remove.
