@@ -6,6 +6,9 @@
 
 /**
  * Get the X and Y coordinates of the pointer.
+ *
+ * @since 0.0.1
+ *
  * @param {PointerEvent} event
  * @returns {Coordinates}
  */
@@ -33,8 +36,11 @@ export function getPointerCoordinates(event) {
 
 /**
  * Get a random number.
- * @param {Number} max
- * @returns {Number}
+ *
+ * @since 0.0.1
+ *
+ * @param {number} max
+ * @returns {number}
  */
 export function randomNumber(max) {
   return Math.random() * max - (max >> 1);
@@ -42,7 +48,10 @@ export function randomNumber(max) {
 
 /**
  * Force 2 decimals on a number.
- * @param {Number} n
+ *
+ * @since 0.0.1
+ *
+ * @param {number} n
  * @returns {String}
  */
 export function trimDecimals(n) {

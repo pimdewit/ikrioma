@@ -2,8 +2,11 @@ import {BufferGeometry, Float32BufferAttribute} from 'three';
 
 /**
  * Take a blender JSON export, and return solely the geometry related data.
- * @param {Object} data
- * @returns {Object}
+ *
+ * @since 0.0.1
+ *
+ * @param {object} data
+ * @returns {object}
  */
 export function getBlenderGeometryData(data) {
   if (data.geometries) return data.geometries[0].data;
@@ -12,7 +15,10 @@ export function getBlenderGeometryData(data) {
 
 /**
  * Turn the raw geometry data from a blender export into a BufferGeometry.
- * @param {Object} geometryData
+ *
+ * @since 0.0.1
+ *
+ * @param {object} geometryData
  * @returns {BufferGeometry}
  */
 export function blenderToBufferGeometry(geometryData) {
