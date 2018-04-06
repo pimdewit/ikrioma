@@ -37,6 +37,7 @@
     "mouse-event-offset": "^3.0.2",
     "mouse-wheel": "^1.2.0",
     "normalize.css": "^8.0.0",
+    "stats.js": "^0.17.0",
     "three": "^0.91.0"
   }
 }

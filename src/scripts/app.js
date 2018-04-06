@@ -9,6 +9,7 @@
 import '../styles/main.scss';
 
 import {IcosahedronBufferGeometry, LOD, PerspectiveCamera, Scene} from 'three';
+import Stats from 'stats.js';
 
 import GLOBAL_RESIZE from './common/resize';
 
@@ -31,6 +32,8 @@ const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
 const SHADOW_SIZE = 32; // higher is less accurate
 const SECOND_VIEWPORT_PADDING = 16;
+
+const stats = new Stats();
 
 const CAMERA_DATA = [
   {
@@ -77,6 +80,7 @@ class Ikrioma {
 
     this.__temp__LODObjects = [];
 
+    this.__temp__addStats();
     this.__temp__addEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
@@ -128,6 +132,17 @@ class Ikrioma {
 
 
     if (!this.looping) this.render();
+  }
+
+  __temp__addStats() {
+    stats.domElement.style.position = 'absolute';
+    stats.domElement.style.top = '';
+    stats.domElement.style.right = '0px';
+    stats.domElement.style.bottom = '0px';
+    stats.domElement.style.left = '';
+    stats.domElement.style.pointerEvents = 'none';
+
+    document.querySelector('[ikrioma-output]').appendChild( stats.domElement );
   }
 
   __temp__createTextureAnimationModel() {
@@ -273,6 +288,7 @@ class Ikrioma {
   }
 
   render() {
+    stats.begin();
     const renderer = this._renderer.engine;
     const camera = this.cameraManager.activeCamera;
 
@@ -291,6 +307,7 @@ class Ikrioma {
     renderer.render(this._scene, camera);
 
     // this.__temp__loop__secondViewport();
+    stats.end();
 
     if (this.active) requestAnimationFrame(this.render.bind(this));
   }
