@@ -1,4 +1,4 @@
-import {LOD, Mesh, BoxHelper, ShaderMaterial, BackSide, NormalBlending} from 'three';
+import {LOD, Mesh, BoxHelper, ShaderMaterial, PointLight, PointLightHelper, AdditiveBlending } from 'three';
 
 import vertex from './shader/SpawnGradient.vert.glsl';
 import fragment from './shader/SpawnGradient.frag.glsl';
@@ -11,6 +11,18 @@ export default class SpawnIndicator extends LOD {
 
     this.counter = Math.random() * 1000;
 
+    const light = new PointLight(0xff0077, 0.5, 1000, 2);
+    light.position.set(0, -9, 0);
+
+    light.castShadow = true;
+
+    // light.rotation.x = Math.PI / 2;
+
+    this.add(light);
+
+    const lightHelper = new PointLightHelper(light);
+    this.add(lightHelper);
+
     this.uniforms = {
       time: {
         value: 0.0
@@ -18,12 +30,11 @@ export default class SpawnIndicator extends LOD {
     };
 
     const mat = new ShaderMaterial( {
-      uniforms:this.uniforms,
+      uniforms: this.uniforms,
       vertexShader: vertex,
       fragmentShader: fragment,
+      blending: AdditiveBlending,
       transparent: true,
-      side: BackSide,
-      blending: NormalBlending
     });
 
     for (let i = 0; i < meshInfo.length; i++) {
@@ -50,7 +61,7 @@ export default class SpawnIndicator extends LOD {
     if (debug && !this._hasDebugMesh) {
       this._Ikrioma = {};
       this._Ikrioma.debugBoundingBox = new BoxHelper(this);
-      this._Ikrioma.debugBoundingBox.material.color.setHex(0x000000);
+      this._Ikrioma.debugBoundingBox.material.color.setHex(0xff0000);
       this._hasDebugMesh = true;
     }
 

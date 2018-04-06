@@ -31,7 +31,7 @@ import SpawnIndicator from "./scene/models/SpawnIndicator/SpawnIndicator";
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
-const SHADOW_SIZE = 32; // higher is less accurate
+const SHADOW_SIZE = 16; // higher is less accurate
 const SECOND_VIEWPORT_PADDING = 16;
 
 const stats = new Stats();
@@ -84,12 +84,13 @@ class Ikrioma {
     this.__temp__addStats();
     this.__temp__createEnvironment();
     this.__temp__createCamera();
-    this.__temp__createLODModels();
-    this.__temp__createSpawnIndicator();
-    this.__temp__createTextureAnimationModel();
 
-    this._addEventListeners();
-    this.__temp__createHelpers();
+          this.__temp__createLODModels();
+          this.__temp__createSpawnIndicator();
+          // this.__temp__createTextureAnimationModel();
+
+          this._addEventListeners();
+          this.__temp__createHelpers();
 
     // this.__temp__replaceTexture();
   }
@@ -146,7 +147,7 @@ class Ikrioma {
     stats.domElement.style.right = '0px';
     stats.domElement.style.bottom = '0px';
     stats.domElement.style.left = '';
-    stats.domElement.style.pointerEvents = 'none';
+    // stats.domElement.style.pointerEvents = 'none';
 
     document.querySelector('[ikrioma-output]').appendChild( stats.domElement );
   }
@@ -222,11 +223,11 @@ class Ikrioma {
     const mat2 = DEFAULTS.MATERIAL_TWO;
 
     const meshInfo = [
-      [ new IcosahedronBufferGeometry( 1, 4 ), mat1, 1 ],
-      [ new IcosahedronBufferGeometry( 1, 3 ), mat2, 10 ],
-      [ new IcosahedronBufferGeometry( 1, 2 ), mat1, 20 ],
-      [ new IcosahedronBufferGeometry( 1, 1 ), mat2, 30 ],
-      [ new IcosahedronBufferGeometry( 1, 0 ), mat1, 40 ]
+      [new IcosahedronBufferGeometry(1, 0), mat1, 320],
+      [new IcosahedronBufferGeometry(1, 4), mat1, 20],
+      [new IcosahedronBufferGeometry(1, 3), mat2, 40],
+      [new IcosahedronBufferGeometry(1, 2), mat1, 80],
+      [new IcosahedronBufferGeometry(1, 1), mat2, 160],
     ];
 
     /**
@@ -254,17 +255,17 @@ class Ikrioma {
     const mat2 = DEFAULTS.MATERIAL_TWO;
 
     const meshInfo = [
-      [new CylinderBufferGeometry(5, 5, 20, 32, 1), mat1, 20],
-      [new CylinderBufferGeometry(5, 5, 20, 16, 1), mat2, 40],
-      [new CylinderBufferGeometry(5, 5, 20, 8, 1), mat1, 80],
-      [new CylinderBufferGeometry(5, 5, 20, 4, 1), mat2, 160],
-      [new CylinderBufferGeometry(5, 5, 20, 2, 1), mat1, 320]
+      [new CylinderBufferGeometry(0.1, 0.1, 20, 8, 1), mat1, 320],
+      [new CylinderBufferGeometry(0.1, 0.1, 20, 128, 1), mat1, 20],
+      [new CylinderBufferGeometry(0.1, 0.1, 20, 64, 1), mat2, 40],
+      [new CylinderBufferGeometry(0.1, 0.1, 20, 32, 1), mat1, 80],
+      [new CylinderBufferGeometry(0.1, 0.1, 20, 16, 1), mat2, 160],
     ];
 
     const spawnIndicator = new SpawnIndicator(meshInfo);
 
-    spawnIndicator.debug = true;
-    this._scene.add(spawnIndicator.debugMesh);
+    // spawnIndicator.debug = true;
+    // this._scene.add(spawnIndicator.debugMesh);
 
     this.__temp__LODObjects.push(spawnIndicator);
     RENDER_TARGETS.push(spawnIndicator);
@@ -356,3 +357,4 @@ const canvas = document.querySelector('[ikrioma-canvas]');
 const Experiment = new Ikrioma(canvas);
 
 Experiment.looping = true;
+

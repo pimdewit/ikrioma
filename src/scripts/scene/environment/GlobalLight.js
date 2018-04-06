@@ -6,7 +6,7 @@ class GlobalLight extends Object3D {
   constructor(hemiColor) {
     super();
 
-    const ambient = new AmbientLight(0xff0000, 0.1);
+    const ambient = new AmbientLight(0xff0077, 0.1);
 
     const hemiLight = new HemisphereLight(0xffffff, 0xffffff, 0.6);
     hemiLight.color.setHSL(0.6, 1, 0.6);
@@ -29,15 +29,15 @@ class GlobalLight extends Object3D {
     const helper = new CameraHelper(this._dirLight.shadow.camera);
 
 
-    const loader = new TextureLoader();
-    const texture = loader.load('https://i.imgur.com/jPXCDrq.png');
-    const lensflare = new Lensflare();
-
-    lensflare.addElement(new LensflareElement(texture, 3200, 0));
-    lensflare.addElement(new LensflareElement(texture, 200, 0.4));
-    lensflare.addElement(new LensflareElement(texture, 120, 0.7));
-    lensflare.addElement(new LensflareElement(texture, 70, 1));
-    this._dirLight.add(lensflare);
+    // const loader = new TextureLoader();
+    // const texture = loader.load('https://i.imgur.com/jPXCDrq.png');
+    // const lensflare = new Lensflare();
+    //
+    // lensflare.addElement(new LensflareElement(texture, 3200, 0));
+    // lensflare.addElement(new LensflareElement(texture, 200, 0.4));
+    // lensflare.addElement(new LensflareElement(texture, 120, 0.7));
+    // lensflare.addElement(new LensflareElement(texture, 70, 1));
+    // this._dirLight.add(lensflare);
 
     this.add(ambient);
 
