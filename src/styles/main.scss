@@ -1,4 +1,8 @@
 @import '~normalize.css';
 
+$color-background: #000;
+
 @import 'global';
 @import 'components/canvas';
+@import 'components/ui';
+@import 'components/datahelper';
