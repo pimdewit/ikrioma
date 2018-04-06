@@ -76,20 +76,21 @@ export default class OrbitControls {
         this.parent.addEventListener('touchend', this.onInputUp)
       } else {
         this.parent.addEventListener('mousedown', this.onInputDown)
-        this.parent.addEventListener('mousemove', this.onInputMove)
-        this.parent.addEventListener('mouseup', this.onInputUp)
+        window.addEventListener('mousemove', this.onInputMove)
+        window.addEventListener('mouseup', this.onInputUp)
       }
     }
 
     if (this.zoom) {
-      mouseWheel(window, this.handleZoom, true)
+      mouseWheel(this.parent, this.handleZoom, true)
     }
   }
 
   removeEvents () {
     this.parent.removeEventListener('mousedown', this.onInputDown)
-    this.parent.removeEventListener('mousemove', this.onInputMove)
-    this.parent.removeEventListener('mouseup', this.onInputUp)
+    window.removeEventListener('mousemove', this.onInputMove)
+    window.removeEventListener('mouseup', this.onInputUp)
+    this.parent.removeEventListener('mouseleave', this.onInputOut)
     this.parent.removeEventListener('touchstart', this.onInputDown)
     this.parent.removeEventListener('touchmove', this.onInputMove)
     this.parent.removeEventListener('touchend', this.onInputUp)
@@ -101,6 +102,7 @@ export default class OrbitControls {
 
   onInputDown (e) {
     if (!this.enabled) return
+
     const start = eventOffset(this.isTouch ? e.changedTouches[0] : e, this.element)
     this.mouseStart.set(start[0], start[1])
     if (this.insideBounds(this.mouseStart)) {
@@ -126,12 +128,7 @@ export default class OrbitControls {
   }
 
   insideBounds (pos) {
-    if (this.element === window || this.element === document || this.element === document.body) {
-      return true
-    } else {
-      const rect = this.element.getBoundingClientRect()
-      return pos.x >= 0 && pos.y >= 0 && pos.x < rect.width && pos.y < rect.height
-    }
+    return true;
   }
 
   getClientSize () {
