@@ -8,7 +8,7 @@
 
 import '../styles/main.scss';
 
-import {IcosahedronBufferGeometry, LOD, PerspectiveCamera, Scene} from 'three';
+import {IcosahedronBufferGeometry, CylinderBufferGeometry, PerspectiveCamera, Scene} from 'three';
 import Stats from 'stats.js';
 
 import GLOBAL_RESIZE from './common/resize';
@@ -27,6 +27,7 @@ import {randomNumber} from "./common/common";
 import { DEFAULTS } from './scene/models/constants';
 import HighLighter from "./scene/models/Highlighter/Highlighter";
 import Graphic from './components/sandbox';
+import SpawnIndicator from "./scene/models/SpawnIndicator/SpawnIndicator";
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
@@ -81,9 +82,10 @@ class Ikrioma {
     this.__temp__LODObjects = [];
 
     this.__temp__addStats();
-    this.__temp__addEnvironment();
+    this.__temp__createEnvironment();
     this.__temp__createCamera();
     this.__temp__createLODModels();
+    this.__temp__createSpawnIndicator();
     this.__temp__createTextureAnimationModel();
 
     this._addEventListeners();
@@ -91,6 +93,10 @@ class Ikrioma {
 
     // this.__temp__replaceTexture();
   }
+
+
+
+
 
   set looping(loop) {
     this.active = loop;
@@ -145,6 +151,9 @@ class Ikrioma {
     document.querySelector('[ikrioma-output]').appendChild( stats.domElement );
   }
 
+
+
+
   __temp__createTextureAnimationModel() {
 
     /**
@@ -163,7 +172,7 @@ class Ikrioma {
     }
   }
 
-  __temp__addEnvironment() {
+  __temp__createEnvironment() {
     this.ground = new Ground();
 
     this.ground.position.setY(-10);
@@ -240,12 +249,39 @@ class Ikrioma {
     }
   }
 
+  __temp__createSpawnIndicator() {
+    const mat1 = DEFAULTS.MATERIAL_TRANSPARENT;
+    const mat2 = DEFAULTS.MATERIAL_TWO;
+
+    const meshInfo = [
+      [new CylinderBufferGeometry(5, 5, 20, 32, 1), mat1, 20],
+      [new CylinderBufferGeometry(5, 5, 20, 16, 1), mat2, 40],
+      [new CylinderBufferGeometry(5, 5, 20, 8, 1), mat1, 80],
+      [new CylinderBufferGeometry(5, 5, 20, 4, 1), mat2, 160],
+      [new CylinderBufferGeometry(5, 5, 20, 2, 1), mat1, 320]
+    ];
+
+    const spawnIndicator = new SpawnIndicator(meshInfo);
+
+    spawnIndicator.debug = true;
+    this._scene.add(spawnIndicator.debugMesh);
+
+    this.__temp__LODObjects.push(spawnIndicator);
+    RENDER_TARGETS.push(spawnIndicator);
+    this._scene.add(spawnIndicator);
+
+    console.log(spawnIndicator);
+  }
+
   __temp__createHelpers() {
     this.cameraHelper = new CameraDataHelper(this.cameraManager);
     RENDER_TARGETS.push(this.cameraHelper);
     this.sceneHelper = new SceneDataHelper(this._renderer);
     RENDER_TARGETS.push(this.sceneHelper);
   }
+
+
+
 
   __temp__loop__DrawModels() {
     let i = this.__temp__LODObjects.length - 1;
@@ -282,6 +318,9 @@ class Ikrioma {
     renderer.render(this._scene, camera);
     renderer.setScissorTest(false);
   }
+
+
+
 
   __temp__interpolation(start, end, alpha) {
     return start * (1 - alpha) + end * alpha;
