@@ -110,7 +110,7 @@ class Lensflare extends Mesh {
         '	gl_FragColor = texture2D( map, vUV );',
 
         '}'
-      ].join( '\n' ),
+      ].join('\n'),
       depthTest: false,
       depthWrite: false,
       transparent: false
@@ -146,7 +146,7 @@ class Lensflare extends Mesh {
       depthWrite: false
     });
 
-    this._Ikrioma.mesh2 = new Mesh(this._Ikrioma.geometry , this._Ikrioma.material2);
+    this._Ikrioma.mesh2 = new Mesh(this._Ikrioma.geometry, this._Ikrioma.material2);
 
     this._Ikrioma.scale = new Vector2();
     this._Ikrioma.screenPositionPixels = new Vector2();
@@ -160,46 +160,46 @@ class Lensflare extends Mesh {
 
   onBeforeRender(renderer, scene, camera) {
     super.onBeforeRender();
-		this._Ikrioma.viewport.copy(renderer.getCurrentViewport());
+    this._Ikrioma.viewport.copy(renderer.getCurrentViewport());
 
-		const invAspect = this._Ikrioma.viewport.w / this._Ikrioma.viewport.z;
-		const halfViewportWidth = this._Ikrioma.viewport.z / 2.0;
+    const invAspect = this._Ikrioma.viewport.w / this._Ikrioma.viewport.z;
+    const halfViewportWidth = this._Ikrioma.viewport.z / 2.0;
     const halfViewportHeight = this._Ikrioma.viewport.w / 2.0;
 
     // console.log(invAspect);
 
-		const size = 16 / this._Ikrioma.viewport.w;
-		this._Ikrioma.scale.set(size * invAspect, size);
+    const size = 16 / this._Ikrioma.viewport.w;
+    this._Ikrioma.scale.set(size * invAspect, size);
 
-		this._Ikrioma.validArea.min.set(this._Ikrioma.viewport.x, this._Ikrioma.viewport.y);
-		this._Ikrioma.validArea.max.set(this._Ikrioma.viewport.x + (this._Ikrioma.viewport.z - 16), this._Ikrioma.viewport.y + (this._Ikrioma.viewport.w - 16));
+    this._Ikrioma.validArea.min.set(this._Ikrioma.viewport.x, this._Ikrioma.viewport.y);
+    this._Ikrioma.validArea.max.set(this._Ikrioma.viewport.x + (this._Ikrioma.viewport.z - 16), this._Ikrioma.viewport.y + (this._Ikrioma.viewport.w - 16));
 
-		// calculate position in screen space
+    // calculate position in screen space
 
-		this._Ikrioma.positionScreen.setFromMatrixPosition(this.matrixWorld);
+    this._Ikrioma.positionScreen.setFromMatrixPosition(this.matrixWorld);
 
-		this._Ikrioma.positionScreen.applyMatrix4(camera.matrixWorldInverse);
-		this._Ikrioma.positionScreen.applyMatrix4(camera.projectionMatrix);
+    this._Ikrioma.positionScreen.applyMatrix4(camera.matrixWorldInverse);
+    this._Ikrioma.positionScreen.applyMatrix4(camera.projectionMatrix);
 
-		// horizontal and vertical coordinate of the lower left corner of the pixels to copy
+    // horizontal and vertical coordinate of the lower left corner of the pixels to copy
 
-		this._Ikrioma.screenPositionPixels.x = this._Ikrioma.viewport.x + (this._Ikrioma.positionScreen.x * halfViewportWidth) + halfViewportWidth - 8;
-		this._Ikrioma.screenPositionPixels.y = this._Ikrioma.viewport.y + (this._Ikrioma.positionScreen.y * halfViewportHeight) + halfViewportHeight - 8;
+    this._Ikrioma.screenPositionPixels.x = this._Ikrioma.viewport.x + (this._Ikrioma.positionScreen.x * halfViewportWidth) + halfViewportWidth - 8;
+    this._Ikrioma.screenPositionPixels.y = this._Ikrioma.viewport.y + (this._Ikrioma.positionScreen.y * halfViewportHeight) + halfViewportHeight - 8;
 
-		// screen cull
+    // screen cull
 
-		if (this._Ikrioma.validArea.containsPoint(this._Ikrioma.screenPositionPixels)) {
+    if (this._Ikrioma.validArea.containsPoint(this._Ikrioma.screenPositionPixels)) {
 
       // console.log(renderer);
 
-			// save current RGB to temp texture
+      // save current RGB to temp texture
 
 
-			renderer.copyFramebufferToTexture(this._Ikrioma.screenPositionPixels, this._Ikrioma.tempMap);
+      renderer.copyFramebufferToTexture(this._Ikrioma.screenPositionPixels, this._Ikrioma.tempMap);
 
-			// render pink quad
+      // render pink quad
       //
-			this._Ikrioma.material1a.uniforms.scale.value = this._Ikrioma.scale;
+      this._Ikrioma.material1a.uniforms.scale.value = this._Ikrioma.scale;
       this._Ikrioma.material1a.uniforms.screenPosition.value = this._Ikrioma.positionScreen;
 
       // console.log(this._Ikrioma.geometry.type);
@@ -212,52 +212,52 @@ class Lensflare extends Mesh {
 
       renderer.renderBufferDirect(camera, null, this._Ikrioma.geometry, this._Ikrioma.material1a, this._Ikrioma.mesh1, null);
 
-			// copy result to occlusionMap
+      // copy result to occlusionMap
 
-			renderer.copyFramebufferToTexture(this._Ikrioma.screenPositionPixels, this._Ikrioma.occlusionMap);
+      renderer.copyFramebufferToTexture(this._Ikrioma.screenPositionPixels, this._Ikrioma.occlusionMap);
 
-			// restore graphics
+      // restore graphics
 
-			this._Ikrioma.material1b.uniforms.scale.value = this._Ikrioma.scale;
-			this._Ikrioma.material1b.uniforms.screenPosition.value = this._Ikrioma.positionScreen;
+      this._Ikrioma.material1b.uniforms.scale.value = this._Ikrioma.scale;
+      this._Ikrioma.material1b.uniforms.screenPosition.value = this._Ikrioma.positionScreen;
 
-			renderer.renderBufferDirect(camera, null, this._Ikrioma.geometry, this._Ikrioma.material1b, this._Ikrioma.mesh1, null);
+      renderer.renderBufferDirect(camera, null, this._Ikrioma.geometry, this._Ikrioma.material1b, this._Ikrioma.mesh1, null);
 
-			// render elements
+      // render elements
 
-			const vecX = - this._Ikrioma.positionScreen.x * 2;
-			const vecY = - this._Ikrioma.positionScreen.y * 2;
+      const vecX = -this._Ikrioma.positionScreen.x * 2;
+      const vecY = -this._Ikrioma.positionScreen.y * 2;
 
-			for (let i = 0, l = this._Ikrioma.elements.length; i < l; i++) {
+      for (let i = 0, l = this._Ikrioma.elements.length; i < l; i++) {
 
-				const element = this._Ikrioma.elements[ i ];
+        const element = this._Ikrioma.elements[i];
 
-				this._Ikrioma.material2.uniforms.color.value.copy(element.color);
-				this._Ikrioma.material2.uniforms.map.value = element.texture;
-				this._Ikrioma.material2.uniforms.screenPosition.value.x = this._Ikrioma.positionScreen.x + vecX * element.distance;
-				this._Ikrioma.material2.uniforms.screenPosition.value.y = this._Ikrioma.positionScreen.y + vecY * element.distance;
+        this._Ikrioma.material2.uniforms.color.value.copy(element.color);
+        this._Ikrioma.material2.uniforms.map.value = element.texture;
+        this._Ikrioma.material2.uniforms.screenPosition.value.x = this._Ikrioma.positionScreen.x + vecX * element.distance;
+        this._Ikrioma.material2.uniforms.screenPosition.value.y = this._Ikrioma.positionScreen.y + vecY * element.distance;
 
-				const size = element.size / this._Ikrioma.w;
-				const invAspect = this._Ikrioma.viewport.w / this._Ikrioma.viewport.z;
+        const size = element.size / this._Ikrioma.w;
+        const invAspect = this._Ikrioma.viewport.w / this._Ikrioma.viewport.z;
 
-				this._Ikrioma.material2.uniforms.scale.value.set( size * invAspect, size );
+        this._Ikrioma.material2.uniforms.scale.value.set(size * invAspect, size);
 
-				this._Ikrioma.material2.uniformsNeedUpdate = true;
+        this._Ikrioma.material2.uniformsNeedUpdate = true;
 
-				renderer.renderBufferDirect(camera, null, this._Ikrioma.geometry, this._Ikrioma.material2, this._Ikrioma.mesh2, null);
+        renderer.renderBufferDirect(camera, null, this._Ikrioma.geometry, this._Ikrioma.material2, this._Ikrioma.mesh2, null);
 
-			}
+      }
 
-		}
+    }
   }
 }
 
 export function LensflareElement(texture, size, distance, color) {
 
-	this.texture = texture;
-	this.size = size || 1;
-	this.distance = distance || 0;
-	this.color = color || new Color( 0xffffff );
+  this.texture = texture;
+  this.size = size || 1;
+  this.distance = distance || 0;
+  this.color = color || new Color(0xffffff);
 
 };
 
