@@ -1,4 +1,4 @@
-import {trimDecimals} from '../../common/common';
+import {trimDecimals} from '../../Core/Math/trimDecimals';
 
 import DataHelper from './DataHelper';
 
@@ -51,8 +51,8 @@ class CameraDataHelper extends DataHelper {
     return {
       cameraList: Object.keys(this._data.cameras).toString(),
       activeCamera: this._data.activeCameraName,
-      activePosition: `${trimDecimals(pX)}, ${trimDecimals(pY)}, ${trimDecimals(pZ)}`,
-      activeRotation:  `${trimDecimals(rX)}, ${trimDecimals(rY)}, ${trimDecimals(rZ)}`,
+      activePosition: `${trimDecimals(pX, 2)}, ${trimDecimals(pY, 2)}, ${trimDecimals(pZ, 2)}`,
+      activeRotation:  `${trimDecimals(rX, 2)}, ${trimDecimals(rY, 2)}, ${trimDecimals(rZ, 2)}`,
       controlType: controls
     };
   }
