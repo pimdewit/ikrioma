@@ -96,10 +96,6 @@ class Ikrioma {
     // this.__temp__replaceTexture();
   }
 
-
-
-
-
   set looping(loop) {
     this.active = loop;
     this._looping = loop;

@@ -1,7 +1,5 @@
 import { LOD, Mesh, BoxHelper } from 'three';
 
-import { DEFAULTS } from '../constants';
-
 export default class TestSphere extends LOD {
   constructor(meshInfo, debug = false) {
     super();

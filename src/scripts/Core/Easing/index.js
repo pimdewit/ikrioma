@@ -1,61 +1,61 @@
-import {easeNone} from './easeNone';
-import {easeInQuad} from './easeInQuad';
-import {easeOutQuad} from './easeOutQuad';
-import {easeInOutQuad} from './easeInOutQuad';
-import {easeOutInQuad} from './easeOutInQuad';
-import {easeInCubic} from './easeInCubic';
-import {easeOutCubic} from './easeOutCubic';
-import {easeInOutCubic} from './easeInOutCubic';
-import {easeOutInCubic} from './easeOutInCubic';
-import {easeInQuart} from './easeInQuart';
-import {easeOutQuart} from './easeOutQuart';
-import {easeInOutQuart} from './easeInOutQuart';
-import {easeOutInQuart} from './easeOutInQuart';
-import {easeInQuint} from './easeInQuint';
-import {easeOutQuint} from './easeOutQuint';
-import {easeInOutQuint} from './easeInOutQuint';
-import {easeOutInQuint} from './easeOutInQuint';
-import {easeInSine} from './easeInSine';
-import {easeOutSine} from './easeOutSine';
-import {easeInOutSine} from './easeInOutSine';
-import {easeOutInSine} from './easeOutInSine';
-import {easeInExpo} from './easeInExpo';
-import {easeOutExpo} from './easeOutExpo';
-import {easeInOutExpo} from './easeInOutExpo';
-import {easeOutInExpo} from './easeOutInExpo';
 import {easeInCirc} from './easeInCirc';
-import {easeOutCirc} from './easeOutCirc';
+import {easeInCubic} from './easeInCubic';
+import {easeInExpo} from './easeInExpo';
 import {easeInOutCirc} from './easeInOutCirc';
+import {easeInOutCubic} from './easeInOutCubic';
+import {easeInOutExpo} from './easeInOutExpo';
+import {easeInOutQuad} from './easeInOutQuad';
+import {easeInOutQuart} from './easeInOutQuart';
+import {easeInOutQuint} from './easeInOutQuint';
+import {easeInOutSine} from './easeInOutSine';
+import {easeInQuad} from './easeInQuad';
+import {easeInQuart} from './easeInQuart';
+import {easeInQuint} from './easeInQuint';
+import {easeInSine} from './easeInSine';
+import {easeNone} from './easeNone';
+import {easeOutCirc} from './easeOutCirc';
+import {easeOutCubic} from './easeOutCubic';
+import {easeOutExpo} from './easeOutExpo';
 import {easeOutInCirc} from './easeOutInCirc';
+import {easeOutInCubic} from './easeOutInCubic';
+import {easeOutInExpo} from './easeOutInExpo';
+import {easeOutInQuad} from './easeOutInQuad';
+import {easeOutInQuart} from './easeOutInQuart';
+import {easeOutInQuint} from './easeOutInQuint';
+import {easeOutInSine} from './easeOutInSine';
+import {easeOutQuad} from './easeOutQuad';
+import {easeOutQuart} from './easeOutQuart';
+import {easeOutQuint} from './easeOutQuint';
+import {easeOutSine} from './easeOutSine';
 
 export {
-  easeNone,
-  easeInQuad,
-  easeOutQuad,
-  easeInOutQuad,
-  easeOutInQuad,
-  easeInCubic,
-  easeOutCubic,
-  easeInOutCubic,
-  easeOutInCubic,
-  easeInQuart,
-  easeOutQuart,
-  easeInOutQuart,
-  easeOutInQuart,
-  easeInQuint,
-  easeOutQuint,
-  easeInOutQuint,
-  easeOutInQuint,
-  easeInSine,
-  easeOutSine,
-  easeInOutSine,
-  easeOutInSine,
-  easeInExpo,
-  easeOutExpo,
-  easeInOutExpo,
-  easeOutInExpo,
   easeInCirc,
-  easeOutCirc,
+  easeInCubic,
+  easeInExpo,
   easeInOutCirc,
+  easeInOutCubic,
+  easeInOutExpo,
+  easeInOutQuad,
+  easeInOutQuart,
+  easeInOutQuint,
+  easeInOutSine,
+  easeInQuad,
+  easeInQuart,
+  easeInQuint,
+  easeInSine,
+  easeNone,
+  easeOutCirc,
+  easeOutCubic,
+  easeOutExpo,
   easeOutInCirc
+  easeOutInCubic,
+  easeOutInExpo,
+  easeOutInQuad,
+  easeOutInQuart,
+  easeOutInQuint,
+  easeOutInSine,
+  easeOutQuad,
+  easeOutQuart,
+  easeOutQuint,
+  easeOutSine,
 }
