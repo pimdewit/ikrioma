@@ -11,6 +11,8 @@ import '../styles/main.scss';
 import {IcosahedronBufferGeometry, CylinderBufferGeometry, PerspectiveCamera, Scene} from 'three';
 import Stats from 'stats.js';
 
+import * as Math from './Core/Math';
+
 import GLOBAL_RESIZE from './Core/DOM/resize';
 
 import TestSphere from './scene/models/TestSphere/TestSphere';
@@ -22,12 +24,11 @@ import CameraDataHelper from './helpers/Data/CameraDataHelper';
 import OrbitControls from './third_party/OrbitControls';
 import GlobalLight from './scene/environment/GlobalLight';
 import Ground from './scene/environment/Ground';
-import {randomNumber} from "./common/common";
 
 import { DEFAULTS } from './scene/models/constants';
-import HighLighter from "./scene/models/Highlighter/Highlighter";
+import HighLighter from './scene/models/Highlighter/Highlighter';
 import Graphic from './components/sandbox';
-import SpawnIndicator from "./scene/models/SpawnIndicator/SpawnIndicator";
+import SpawnIndicator from './scene/models/SpawnIndicator/SpawnIndicator';
 
 const SPHERE_COUNT = 10;
 const SPHERE_POS_RANDOMNESS = 3;
@@ -236,9 +237,9 @@ class Ikrioma {
     for (let j = 0; j < SPHERE_COUNT; j++) {
       const lod = new TestSphere(meshInfo);
       lod.position.set(
-        randomNumber(SPHERE_POS_RANDOMNESS),
-        randomNumber(SPHERE_POS_RANDOMNESS),
-        randomNumber(SPHERE_POS_RANDOMNESS));
+        Math.randomArbitrary(SPHERE_POS_RANDOMNESS, -SPHERE_POS_RANDOMNESS),
+        Math.randomArbitrary(SPHERE_POS_RANDOMNESS, -SPHERE_POS_RANDOMNESS),
+        Math.randomArbitrary(SPHERE_POS_RANDOMNESS, -SPHERE_POS_RANDOMNESS));
 
       // lod.debug = true;
       // this._scene.add(lod.debugMesh);
