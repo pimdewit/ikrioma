@@ -11,7 +11,7 @@ import '../styles/main.scss';
 import {IcosahedronBufferGeometry, CylinderBufferGeometry, PerspectiveCamera, Scene} from 'three';
 import Stats from 'stats.js';
 
-import GLOBAL_RESIZE from './common/resize';
+import GLOBAL_RESIZE from './Core/DOM/resize';
 
 import TestSphere from './scene/models/TestSphere/TestSphere';
 

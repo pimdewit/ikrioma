@@ -1,4 +1,4 @@
-import GLOBAL_RESIZE from '../common/resize';
+import GLOBAL_RESIZE from '../Core/DOM/resize';
 import { WebGLRenderer, PCFShadowMap, PCFSoftShadowMap } from 'three';
 
 /** @type {Array<Object>} */

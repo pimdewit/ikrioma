@@ -1,4 +1,4 @@
-import GLOBAL_RESIZE from "../common/resize";
+import GLOBAL_RESIZE from "../Core/DOM/resize";
 
 export const CONSTANTS = {
   fov: 50,
