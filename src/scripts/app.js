@@ -69,6 +69,7 @@ const CAMERA_DATA = [
  */
 class Ikrioma {
   constructor(canvas) {
+    console.log('init');
     this._scene = new Scene();
     this._renderer = new Renderer(canvas);
 
