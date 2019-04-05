@@ -4,6 +4,27 @@
  * TODO: Canvas to texture
  */
 
+/**
+ * @typedef {number} Int
+ * Positive or negative whole numbers with no decimal point.
+ */
+
+/**
+ * @typedef {Object} HSL
+ * @property {Int} HUE - the H in HSL. (range: 0 - 256).
+ * @property {Int} SATURATION - the S in HSL. (range 0 - 100).
+ */
+
+/** @type {HSL} */
+const WALKER_COLOUR = {
+  HUE: 256,
+  SATURATION: 100,
+};
+
+const particleHue = WALKER_COLOUR.HUE;
+
+
+console.log(particleHue);
 
 
 import '../styles/main.scss';
